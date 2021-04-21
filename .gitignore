@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+# agregando archivo de configuracion que sera ignorado
 /src/utils/qpm.config.json
 
 
