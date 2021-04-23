@@ -1,0 +1,5 @@
+{
+  "username": "user_example",
+  "password": "password_example",
+  "server": "https://mi-server.com:8000"
+}
