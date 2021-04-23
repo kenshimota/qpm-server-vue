@@ -123,7 +123,7 @@ export default {
       this.$buefy.modal.open({
         parent: this,
         props: {
-          level: 1,
+          level: 0,
           title: 'Clases',
           subtitle1: 'Clase Producto',
           subtitle2: 'Variable/Regla de Producto',
@@ -146,7 +146,7 @@ export default {
     // funcion que se encarga de
     // obtener el listado de sitios determinados
     getData: async function() {
-      ClientQPM.method('listAllPrimaryClassesFromSite', {
+      ClientQPM.method('listAllSecondaryClassesFromSite', {
         sitename: { site_name: 'San Jose CR' },
       });
 

@@ -27,8 +27,8 @@
       :opened-detailed="defaultOpenedDetails"
       @details-open="(row, index) => closeAllOtherDetails(row, index)"
     >
-      <b-table-column field="id" label="N°" width="40" numeric v-slot="props">
-        <span class="text-table">{{ props.row.numberRow }}</span>
+      <b-table-column field="unique" label="N°" width="40" numeric v-slot="props">
+        {{ props.row.unique }}
       </b-table-column>
 
       <b-table-column label="Código" v-slot="props">
@@ -72,7 +72,6 @@
       <template #detail="props">
         <div style="width: fit-content; margin: 5px auto;">
           <box-gl
-            :key="props.row.id"
             :color="props.row.box_color"
             :width="props.row.box_extwidth"
             :height="props.row.box_extheight"
@@ -154,6 +153,7 @@ export default {
   // metodos que comprenden el componente
   methods: {
     closeAllOtherDetails(row) {
+      console.log(row);
       this.defaultOpenedDetails = [row.id];
     },
 
@@ -206,9 +206,9 @@ export default {
         const { boxes } = result;
         this.loading = false;
         if ((this.page == 1 && Array.isArray(boxes)) || !this.typeScroll)
-          this.list = boxes.map((r, key) => ({ ...r, numberRow: key + start }));
+          this.list = boxes.map((r, key) => ({ ...r, unique: key + start }));
         else if (Array.isArray(boxes))
-          boxes.forEach((r, key) => this.list.push({ ...r, numberRow: key + start }));
+          boxes.forEach((r, key) => this.list.push({ ...r, unique: key + start }));
 
         window.scroll(0, 0); // subiendo pantalla a lado superior de esta para no tener inconvenientes
       });
