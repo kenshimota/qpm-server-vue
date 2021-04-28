@@ -6,17 +6,27 @@
         <button type="button" class="delete" @click="handleClose" />
       </header>
       <section class="modal-card-body">
-        <b-field label="Identificador">
+        <b-field :label="language.IDENTIFICATION">
           <b-input v-model="asset_class" type="text" required />
         </b-field>
 
-        <b-field label="Descripción">
+        <b-field :label="language.DESCRIPTION">
           <b-input v-model="asset_description" type="text" required />
         </b-field>
       </section>
       <footer class="modal-card-foot buttons is-pulled-right">
-        <b-button label="Cancelar" type="is-danger" icon-right="close" @click="handleClose" />
-        <b-button label="Guardar" type="is-success" icon-right="content-save" @click="onSubmit" />
+        <b-button
+          :label="language.CANCEL"
+          type="is-danger"
+          icon-right="close"
+          @click="handleClose"
+        />
+        <b-button
+          :label="language.SAVE"
+          type="is-success"
+          icon-right="content-save"
+          @click="onSubmit"
+        />
       </footer>
     </div>
   </form>
@@ -44,14 +54,13 @@ export default {
     'label2',
     'site_name',
     'reload',
-    'resource',
+    'language',
   ],
 
   created: function() {
-    const { resource } = this;
-    if (resource && typeof resource == 'object') {
-      for (const index in resource) {
-        if (this[index] != undefined) this[index] = resource[index];
+    if (this.resource && typeof this.resource == 'object') {
+      for (const index in this.resource) {
+        if (this[index] != undefined) this[index] = this.resource[index];
       }
     }
   },

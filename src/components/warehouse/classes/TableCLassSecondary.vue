@@ -3,21 +3,21 @@
     <div class="container has-text-right" style="margin-bottom: 10px;">
       <span>
         <b-button type="is-info" icon-left="plus" @click="openNewEditClass">
-          <span>Nuevo</span>
+          <span>{{ language.NEW }}</span>
         </b-button>
       </span>
     </div>
 
     <b-table striped class="has-text-left" :loading="loading" :data="list">
-      <b-table-column label="Tipo" v-slot="props">
+      <b-table-column :label="language.TYPE" v-slot="props">
         {{ props.row.asset_class }}
       </b-table-column>
 
-      <b-table-column label="Descripción" v-slot="props">
+      <b-table-column :label="language.DESCRIPTION" v-slot="props">
         {{ props.row.asset_description }}
       </b-table-column>
 
-      <b-table-column label="Texto" v-slot="props">
+      <b-table-column :label="language.TEXT" v-slot="props">
         {{ props.row.asset_text }}
       </b-table-column>
 
@@ -56,6 +56,8 @@ import DialogCreateClass from './DialogCreateClass';
 import TableClassVariable from './TableClassVariable';
 
 export default {
+  props: ['language'],
+
   // datos del componente
   data: () => ({
     list: [],
@@ -68,7 +70,7 @@ export default {
     openListVariable: function(asset) {
       this.$buefy.modal.open({
         parent: this,
-        props: { asset, site_name: 'San Jose CR' },
+        props: { asset, site_name: 'San Jose CR', language: this.language },
         component: TableClassVariable,
         hasModalCard: true,
         customClass: 'custom-class custom-class-2',
@@ -135,6 +137,7 @@ export default {
           site_name: 'San Jose CR',
           reload: this.getData,
           resource: resource,
+          language: this.language,
         },
         component: DialogCreateClass,
         hasModalCard: true,

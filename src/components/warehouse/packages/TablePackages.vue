@@ -3,13 +3,18 @@
     <div class="columns">
       <div class="column is-3">
         <div class="has-text-left">
-          <b>Sede: </b>
+          <b>{{ language.CAMPUS }}: </b>
           <span>{{ site_name }}</span>
         </div>
       </div>
       <div class="column is-9">
         <b-field>
-          <b-input label="Buscar" icon-right="magnify" v-model="search" icon-right-clickable />
+          <b-input
+            :placeholder="language.SEARCH"
+            icon-right="magnify"
+            v-model="search"
+            icon-right-clickable
+          />
         </b-field>
       </div>
     </div>
@@ -31,39 +36,39 @@
         {{ props.row.unique }}
       </b-table-column>
 
-      <b-table-column label="Código" v-slot="props">
+      <b-table-column :label="language.CODE" v-slot="props">
         <span class="text-table">{{ props.row.box_code }}</span>
       </b-table-column>
 
-      <b-table-column label="Long" v-slot="props">
+      <b-table-column :label="language.LENGTH" v-slot="props">
         <span class="text-table">{{ props.row.box_extlength }}</span>
       </b-table-column>
 
-      <b-table-column label="Ancho" v-slot="props">
+      <b-table-column :label="language.WIDTH" v-slot="props">
         <span class="text-table">{{ props.row.box_extwidth }}</span>
       </b-table-column>
 
-      <b-table-column label="Alto" v-slot="props">
+      <b-table-column :label="language.HEIGHT" v-slot="props">
         <span class="text-table">{{ props.row.box_extheight }}</span>
       </b-table-column>
 
-      <b-table-column label="Peso" v-slot="props">
+      <b-table-column :label="language.WEIGHT" v-slot="props">
         <span class="text-table">{{ props.row.box_weight }}</span>
       </b-table-column>
 
-      <b-table-column label="Apilar" v-slot="props">
+      <b-table-column :label="language.STACK" v-slot="props">
         <span class="text-table">{{ props.row.box_stack }}</span>
       </b-table-column>
 
-      <b-table-column label="Paquete" v-slot="props">
+      <b-table-column :label="language.PACKAGE" v-slot="props">
         <span class="text-table">{{ props.row.box_class1 }}</span>
       </b-table-column>
 
-      <b-table-column label="Clase" v-slot="props">
+      <b-table-column :label="language.CLASS" v-slot="props">
         <span class="text-table">{{ props.row.box_class2 }}</span>
       </b-table-column>
 
-      <b-table-column label="Descripción" v-slot="props">
+      <b-table-column :label="language.DESCRIPTION" v-slot="props">
         <span class="has-text-left text-table" style="float: left; max-width:300px;">
           {{ props.row.box_desc }}
         </span>
@@ -90,7 +95,7 @@
             size="is-small"
             icon-left="arrow-left"
           >
-            Atras
+            {{ language.BACK }}
           </b-button>
           <b-button
             v-if="list.length == perPage"
@@ -98,7 +103,7 @@
             size="is-small"
             icon-right="arrow-right"
           >
-            Siguiente
+            {{ language.NEXT }}
           </b-button>
         </div>
       </div>
@@ -112,6 +117,8 @@ import BoxGl from './BoxGl';
 let timeSearch = null;
 
 export default {
+  props: ['language'],
+
   // componentes a utilizar
   components: { BoxGl },
 

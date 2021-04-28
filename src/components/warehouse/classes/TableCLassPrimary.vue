@@ -3,25 +3,25 @@
     <div class="container has-text-right" style="margin-bottom: 10px;">
       <span>
         <b-button type="is-info" icon-left="plus" @click="openNewEditClass">
-          <span>Nuevo</span>
+          <span>{{ language.NEW }}</span>
         </b-button>
       </span>
     </div>
 
     <b-table striped class="has-text-left" :loading="loading" :data="list">
-      <b-table-column label="Tipo" v-slot="props">
+      <b-table-column :label="language.TYPE" v-slot="props">
         {{ props.row.asset_class }}
       </b-table-column>
 
-      <b-table-column label="Descripción" v-slot="props">
+      <b-table-column :label="language.DESCRIPTION" v-slot="props">
         {{ props.row.asset_description }}
       </b-table-column>
 
-      <b-table-column label="Texto" v-slot="props">
+      <b-table-column :label="language.TEXT" v-slot="props">
         {{ props.row.asset_text }}
       </b-table-column>
 
-      <b-table-column label="Acciones" v-slot="props">
+      <b-table-column :label="language.ACTIONS" v-slot="props">
         <span class="buttons is-pulled-right">
           <b-button
             @click="openListVariable(props.row)"
@@ -56,6 +56,8 @@ import DialogCreateClass from './DialogCreateClass';
 import TableClassVariable from './TableClassVariable';
 
 export default {
+  props: ['language'],
+
   // datos del componente
   data: () => ({
     list: [],
@@ -68,7 +70,7 @@ export default {
     openListVariable: function(asset) {
       this.$buefy.modal.open({
         parent: this,
-        props: { asset, site_name: 'San Jose CR' },
+        props: { asset, site_name: 'San Jose CR', language: this.language },
         component: TableClassVariable,
         hasModalCard: true,
         customClass: 'custom-class custom-class-2',
@@ -124,17 +126,11 @@ export default {
         parent: this,
         props: {
           level: 1,
-          title: 'Clases',
-          subtitle1: 'Clase Producto',
-          subtitle2: 'Variable/Regla de Producto',
-          label1: 'Identificador',
-          label2: 'Descripción',
-          label3: 'Nombre',
-          label4: 'Descripción',
-          label5: 'Valor',
+          title: this.language.CLASS,
           site_name: 'San Jose CR',
           reload: this.getData,
           resource: resource,
+          language: this.language,
         },
         component: DialogCreateClass,
         hasModalCard: true,
@@ -158,6 +154,7 @@ export default {
   },
 
   mounted: function() {
+    console.log(this.language);
     this.getData();
   },
 };
