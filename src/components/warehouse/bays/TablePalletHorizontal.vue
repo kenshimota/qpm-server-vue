@@ -84,7 +84,7 @@ export default {
           reload: this.getData,
           resource: resource,
           language: this.language,
-          ltype: 'bt',
+          ltype: 'bf',
         },
         component: DialogCreateEditPallet,
         hasModalCard: true,
@@ -98,7 +98,7 @@ export default {
       ClientQPM.method('getPalletsByLoadType', {
         loadinfo: {
           sede: this.sede,
-          ltype: 'bt',
+          ltype: 'bf',
         },
       });
 
