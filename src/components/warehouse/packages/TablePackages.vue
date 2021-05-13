@@ -122,6 +122,11 @@ export default {
   // componentes a utilizar
   components: { BoxGl },
 
+  created: function() {
+    const { site_name } = ClientQPM.getCurrentUser();
+    this.site_name = site_name;
+  },
+
   // datos del componente
   data: () => ({
     list: [],
@@ -129,7 +134,7 @@ export default {
     page: 1,
     loading: false,
     perPage: 20,
-    site_name: 'San Jose CR',
+    site_name: null,
     typeScroll: false,
     search: '',
   }),

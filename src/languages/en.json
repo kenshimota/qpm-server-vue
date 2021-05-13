@@ -37,5 +37,15 @@
   "MAX_LOAD_HEIGHT": "Max Load Height",
   "MAX_LOAD_WEIGHT": "Max Load Weight",
   "DIMENTIONS_MIN_LOAD": "Dimentions Min Load",
-  "DIMENTIONS_MAX_LOAD": "Dimentions Max Load"
+  "DIMENTIONS_MAX_LOAD": "Dimentions Max Load",
+  "LOGIN": "Login",
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
+  "LOGOUT": "Logout",
+  "TRUCK_TYPE": "Truck Type",
+  "SERIAL": "Serial",
+  "LICENSE": "License",
+  "MODEL": "Model",
+  "DIVIDERS": "Dividirs",
+  "UPDATED": "Updated"
 }

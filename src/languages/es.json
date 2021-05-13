@@ -37,5 +37,15 @@
   "MAX_LOAD_HEIGHT": "Altura Max Carga",
   "MAX_LOAD_WEIGHT": "Peso Max Carga",
   "DIMENTIONS_MIN_LOAD": "Dimensiones Min Carga",
-  "DIMENTIONS_MAX_LOAD": "Dimensiones Max Carga"
+  "DIMENTIONS_MAX_LOAD": "Dimensiones Max Carga",
+  "LOGIN": "Entrar",
+  "USERNAME": "Usuario",
+  "PASSWORD": "Contraseña",
+  "LOGOUT": "Salir",
+  "TRUCK_TYPE": "Tipos de Camiones",
+  "SERIAL": "Serial",
+  "LICENSE": "Licencia",
+  "MODEL": "Modelo",
+  "DIVIDERS": "Dividisores",
+  "UPDATED": "Actualizado"
 }

@@ -1,5 +1,5 @@
 {
-  "username": "user_example",
-  "password": "password_example",
-  "server": "https://mi-server.com:8000"
+  "server": "https://mi-server.com:8000",
+  "calcdb":"qpm_calcdb",
+  "ctrldb":"qpm_controldb",
 }

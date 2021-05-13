@@ -65,7 +65,7 @@ export default {
     perPage: 20,
     list: [],
     loading: false,
-    sede: 'San Jose CR',
+    sede: ClientQPM.getCurrentUser().site_name,
   }),
 
   mounted: function() {

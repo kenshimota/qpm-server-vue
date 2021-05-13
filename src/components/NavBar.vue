@@ -6,7 +6,7 @@
       </b-navbar-item>
     </template>
 
-    <template #start>
+    <template #start v-if="session">
       <b-navbar-item tag="router-link" :to="{ path: '/warehouse' }">
         <span>{{ language.content.WAREHOUSE }}</span>
       </b-navbar-item>
@@ -29,19 +29,36 @@
           {{ lang.name }}
         </b-navbar-item>
       </b-navbar-dropdown>
+
+      <b-navbar-item v-if="session" @click="logout">
+        <span style="margin-right: 10px;">{{ language.content.LOGOUT }}</span>
+        <b-icon icon="exit-to-app" />
+      </b-navbar-item>
     </template>
   </b-navbar>
 </template>
 
 <script>
+import { isLogin, setLogout } from '../utils/qpm';
 import { languages, getLanguage } from '../languages/index';
 export default {
-  data: () => ({ language: getLanguage(), languages }),
+  created: function() {
+    setInterval(() => (this.session = isLogin()), 200);
+  },
+
+  data: () => ({ language: getLanguage(), languages, session: false }),
 
   methods: {
+    // seteando el lenguaje
     setLanguage: function(key) {
       this.language = getLanguage(key);
       this.$router.push('/language');
+    },
+
+    // funcion que se encarga de cerrar cesion
+    logout: async function() {
+      await setLogout();
+      this.$router.push('/login');
     },
   },
 };

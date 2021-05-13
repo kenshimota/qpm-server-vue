@@ -70,7 +70,11 @@ export default {
     openListVariable: function(asset) {
       this.$buefy.modal.open({
         parent: this,
-        props: { asset, site_name: 'San Jose CR', language: this.language },
+        props: {
+          asset,
+          site_name: ClientQPM.getCurrentUser().site_name,
+          language: this.language,
+        },
         component: TableClassVariable,
         hasModalCard: true,
         customClass: 'custom-class custom-class-2',
@@ -134,7 +138,7 @@ export default {
           label3: 'Nombre',
           label4: 'Descripción',
           label5: 'Valor',
-          site_name: 'San Jose CR',
+          site_name: ClientQPM.getCurrentUser().site_name,
           reload: this.getData,
           resource: resource,
           language: this.language,
@@ -150,7 +154,7 @@ export default {
     // obtener el listado de sitios determinados
     getData: async function() {
       ClientQPM.method('listAllSecondaryClassesFromSite', {
-        sitename: { site_name: 'San Jose CR' },
+        sitename: { site_name: ClientQPM.getCurrentUser().site_name },
       });
 
       this.loading = true;
