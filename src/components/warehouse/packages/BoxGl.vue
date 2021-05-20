@@ -1,16 +1,20 @@
 <template>
-  <div style="width: 200px; height: 200px" ref="div-box"></div>
+  <div :style="{ width: cvWidth, height: cvHeight }" ref="div-box"></div>
 </template>
 
 <script>
 import WebGl from 'webgl-show';
 export default {
-  props: ['width', 'height', 'length', 'color'],
+  props: ['width', 'height', 'length', 'color', 'dwWidth', 'dwHeight'],
   data: () => ({
     graph: null,
+    cvWidth: 200,
+    cvHeight: 200,
   }),
 
   mounted: function() {
+    if (this.dwWidth) this.cvWidth = this.dwWidth;
+    if (this.dwHeight) this.cvHeight = this.dwHeight;
     this.createfigure();
   },
 
@@ -21,7 +25,7 @@ export default {
   methods: {
     createfigure: async function() {
       const { width, height, length } = this;
-      const data = { maxWidth: 200, maxHeight: 200 };
+      const data = { maxWidth: this.cvWidth, maxHeight: this.cvHeight };
       const element = this.$refs['div-box'];
       const graph = await WebGl({
         element,
@@ -38,8 +42,6 @@ export default {
         data.width = data.maxWidth;
       }
 
-      console.log(length, data);
-
       const cube = graph.createFigure({
         geometry: 'BoxGeometry',
         material: { color: this.color, type: 'basic' },
@@ -47,11 +49,11 @@ export default {
       });
 
       cube.animation = function() {
-        //this.figure.rotation.y += 0.01;
+        this.figure.rotation.y += 0.01;
         this.figure.rotation.x += 0.02;
       };
 
-      graph.setLight({ intensity: 0.4, color: 0x000000, position: { x: -3, y: -5, z: 20 } });
+      graph.setLight({ intensity: 0.4, color: 0x444444, position: { x: 1, y: 1 } });
       graph.addFigure(cube);
       this.graph = graph;
     },

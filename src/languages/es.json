@@ -36,6 +36,8 @@
   "MIXED_LOAD": "Carga Mixta",
   "MAX_LOAD_HEIGHT": "Altura Max Carga",
   "MAX_LOAD_WEIGHT": "Peso Max Carga",
+  "MAX_LOAD_WIDTH": "Anchura Max Carga",
+  "MAX_LOAD_LENGTH": "Longitud Max Carga",
   "DIMENTIONS_MIN_LOAD": "Dimensiones Min Carga",
   "DIMENTIONS_MAX_LOAD": "Dimensiones Max Carga",
   "LOGIN": "Entrar",
@@ -47,5 +49,11 @@
   "LICENSE": "Licencia",
   "MODEL": "Modelo",
   "DIVIDERS": "Dividisores",
-  "UPDATED": "Actualizado"
+  "UPDATED": "Actualizado",
+  "SKU": "Sku",
+  "AREA_EF": "Ef. Area",
+  "VOL_EF": "Ef. Vol",
+  "WT_EF": "Ef. Peso",
+  "SKU_DETAILS": "Detalles de Sku",
+  "ClOSE": "Cerrar"
 }

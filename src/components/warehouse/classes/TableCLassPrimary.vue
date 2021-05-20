@@ -154,7 +154,6 @@ export default {
   },
 
   mounted: function() {
-    console.log(this.language);
     this.getData();
   },
 };

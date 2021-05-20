@@ -24,3 +24,25 @@
 .is-active-list {
   background: rgba(157, 4, 228, 0.767);
 }
+
+.tabs.is-toggle li.is-active a {
+  background-color: #666;
+  border: 1px solid #ddd;
+  color: #fff;
+}
+
+.tabs.is-toggle li.is-active a:focus {
+  background-color: #666;
+  border: 1px solid #ddd;
+  color: #fff;
+}
+
+.tabs li.is-active a {
+  border-bottom-color: #333;
+  color: #666;
+}
+
+.tabs li.is-active a:focus {
+  border-bottom-color: #333;
+  color: #666;
+}
