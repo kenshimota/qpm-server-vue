@@ -7,14 +7,14 @@
     </template>
 
     <template #start v-if="session">
-      <b-navbar-item tag="router-link" :to="{ path: '/warehouse' }">
-        <span>{{ language.content.WAREHOUSE }}</span>
+      <b-navbar-item tag="router-link" :to="{ path: '/routes' }">
+        <span>{{ language.content.ROUTES }}</span>
       </b-navbar-item>
       <b-navbar-item tag="router-link" :to="{ path: '/drives' }">
         <span>{{ language.content.TRUCK_FILL }}</span>
       </b-navbar-item>
-      <b-navbar-item tag="router-link" :to="{ path: '/routes' }">
-        <span>{{ language.content.ROUTES }}</span>
+      <b-navbar-item tag="router-link" :to="{ path: '/warehouse' }">
+        <span>{{ language.content.WAREHOUSE }}</span>
       </b-navbar-item>
     </template>
 
@@ -55,7 +55,7 @@ export default {
       this.$router.push('/language');
     },
 
-    // funcion que se encarga de cerrar cesion
+    // función que se encarga de cerrar sesión
     logout: async function() {
       await setLogout();
       this.$router.push('/login');

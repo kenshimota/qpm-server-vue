@@ -72,7 +72,7 @@ export default {
   }),
 
   methods: {
-    // funcion que se encarga del cierre del dialog
+    // función que se encarga del cierre del dialog
     handleClose: function() {
       try {
         this.$emit('close');
@@ -107,8 +107,8 @@ export default {
       });
     },
 
-    // funcion que se encarga del envio
-    // de datos de forma determinda
+    // función que se encarga del envio
+    // de datos de forma determinada
     onSubmit: function() {
       this.createEditAsset();
     },

@@ -65,8 +65,8 @@ export default {
   }),
 
   methods: {
-    // funcion que se encarga de listar
-    // las varialbles de una clase determinada
+    // función que se encarga de listar
+    // las variables de una clase determinada
     openListVariable: function(asset) {
       this.$buefy.modal.open({
         parent: this,
@@ -78,8 +78,8 @@ export default {
       });
     },
 
-    // funcion que se encargga de un dialog con la informacion
-    // respecto a la eliminacion de una clase determinada
+    // función que se encarga de un dialog con la informacion
+    // respecto a la eliminación de una clase determinada
     openDeleteClass: function(resource) {
       this.$buefy.dialog.confirm({
         title: 'Eliminar Clase',
