@@ -111,8 +111,6 @@ export default {
     // funcion que se encargga de un dialog con la informacion
     // respecto a la eliminacion de una clase determinada
     openDeletePallet: function(resource) {
-      console.log(resource);
-
       this.$buefy.dialog.confirm({
         title: 'Eliminar Paleta',
         message:

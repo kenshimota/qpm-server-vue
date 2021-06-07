@@ -1,11 +1,23 @@
 <template>
   <div>
-    <div class="container has-text-right" style="margin-bottom: 10px;">
-      <span>
-        <b-button type="is-info" icon-left="plus" @click="openNewEditTruck()">
-          <span>{{ language.NEW }}</span>
-        </b-button>
-      </span>
+    <div class="columns">
+      <div class="column is-6">
+        <div class="container has-text-left" style="margin-bottom: 10px;">
+          <h1 class="subtitle" style="position: relative; top: 15px;">
+            {{ language.TRUCKS }}
+            {{ list && !loading ? '(' + list.length + ')' : '' }}
+          </h1>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="container has-text-right" style="margin-bottom: 10px;">
+          <span>
+            <b-button type="is-info" icon-left="plus" @click="openNewEditTruck()">
+              <span>{{ language.NEW }}</span>
+            </b-button>
+          </span>
+        </div>
+      </div>
     </div>
 
     <b-table striped class="has-text-left max-height" :loading="loading" :data="list">
@@ -25,15 +37,15 @@
         {{ props.row.license }}
       </b-table-column>
 
-      <b-table-column :label="language.MODEL" v-slot="props">
+      <b-table-column v-if="!truck_type" :label="language.MODEL" v-slot="props">
         {{ props.row.modelname }}
       </b-table-column>
 
       <b-table-column :label="language.DIVIDERS" v-slot="props">
-        {{ props.row.dividersaboard }}
+        {{ truck_type ? props.row.dividers : props.row.dividersaboard }}
       </b-table-column>
 
-      <b-table-column :label="language.UPDATED" v-slot="props">
+      <b-table-column v-if="!truck_type" :label="language.UPDATED" v-slot="props">
         {{ getToDate(props.row.updated) }}
       </b-table-column>
 
@@ -69,7 +81,7 @@ import { ClientQPM } from '../../../utils/qpm';
 import moment from 'moment';
 
 export default {
-  props: ['language'],
+  props: ['language', 'truck_type'],
 
   data: () => ({
     page: 1,
@@ -83,16 +95,22 @@ export default {
     this.getData();
   },
 
+  watch: {
+    truck_type: function() {
+      this.list = [];
+      this.getData();
+    },
+  },
+
   methods: {
     getToDate: function(date) {
+      date = new Date(date);
       return `${moment(date).format('LT')} ${moment(date).format('L')}`;
     },
 
     // funcion que se encarga de aperturar
     // el dioalog que se necesita mostrar
     openNewEditTruck: function(resource) {
-      console.log(resource);
-
       this.$buefy.modal.open({
         parent: this,
         props: {
@@ -119,14 +137,16 @@ export default {
         hasIcon: true,
         onConfirm: async () => {
           try {
-            console.log(resource);
-            /* // establecinedo method, sus parametros y solicitando sus datops
-            ClientQPM.method('deleteAssetClass', { assetid: { id: resource.id } });
-            await ClientQPM.fetch()
-              .then(response => response)
+            ClientQPM.method('deleteFleetTruck', {
+              truckid: { id: resource.id },
+            });
+
+            // solicitando metodo
+            ClientQPM.fetch()
+              .then(t => t)
               .catch(error => {
                 throw error;
-              });*/
+              });
 
             // mostrando el mensaje de exito
             this.$buefy.toast.open({
@@ -151,16 +171,26 @@ export default {
     // metodo que obtiene el listo de tipos de vehiculos
     getData: async function() {
       try {
-        ClientQPM.method('getQuickTrucksFromSite', { sede: { sede: this.sede } });
+        const { truck_type } = this;
+
+        if (!truck_type) ClientQPM.method('getQuickTrucksFromSite', { sede: { sede: this.sede } });
+        else
+          ClientQPM.method('listFleetFromModel', {
+            modelinfo: {
+              site_name: this.sede,
+              modelname: truck_type.code,
+            },
+          });
+
         this.loading = true;
 
-        const { trucks } = await ClientQPM.fetch()
+        const { trucks, fleet } = await ClientQPM.fetch()
           .then(t => t)
           .catch(error => {
             throw error;
           });
 
-        this.list = trucks;
+        this.list = trucks ? trucks : fleet;
       } catch (error) {
         console.error(error);
       } finally {

@@ -24,38 +24,44 @@ export default {
 
   methods: {
     createfigure: async function() {
-      const { width, height, length } = this;
-      const data = { maxWidth: this.cvWidth, maxHeight: this.cvHeight };
-      const element = this.$refs['div-box'];
-      const graph = await WebGl({
-        element,
-        width: data.maxWidth,
-        height: data.maxHeight,
-        color: 0xffffff,
-      });
+      try {
+        const { width, height, length } = this;
+        const data = { maxWidth: this.cvWidth, maxHeight: this.cvHeight };
+        const element = this.$refs['div-box'];
 
-      if (width < height) {
-        data.width = (data.maxWidth * width) / height;
-        data.height = data.maxHeight;
-      } else {
-        data.height = (data.maxHeight * height) / width;
-        data.width = data.maxWidth;
+        const graph = await WebGl({
+          element,
+          width: data.maxWidth,
+          height: data.maxHeight,
+          color: 'transparent',
+        });
+
+        if (width < height) {
+          data.width = (data.maxWidth * width) / height;
+          data.height = data.maxHeight;
+        } else {
+          data.height = (data.maxHeight * height) / width;
+          data.width = data.maxWidth;
+        }
+
+        const cube = graph.createFigure({
+          geometry: 'BoxGeometry',
+          material: { emissive: this.color },
+          attributes: [data.width / 100, data.height / 100, length / 100],
+        });
+
+        cube.animation = function() {
+          this.figure.rotation.y += 0.01;
+          this.figure.rotation.x += 0.01;
+        };
+
+        graph.setLight({ intensity: 0.1, color: 0x111111, position: { x: 1, y: 1, z: 4 } });
+        graph.setLight({ intensity: 0.1, color: 0xffffff, position: { x: -1, y: -2, z: 4 } });
+        graph.addFigure(cube);
+        this.graph = graph;
+      } catch (error) {
+        console.error(error);
       }
-
-      const cube = graph.createFigure({
-        geometry: 'BoxGeometry',
-        material: { color: this.color, type: 'basic' },
-        attributes: [data.width / 100, data.height / 100, length / 100],
-      });
-
-      cube.animation = function() {
-        this.figure.rotation.y += 0.01;
-        this.figure.rotation.x += 0.02;
-      };
-
-      graph.setLight({ intensity: 0.4, color: 0x444444, position: { x: 1, y: 1 } });
-      graph.addFigure(cube);
-      this.graph = graph;
     },
   },
 };

@@ -129,7 +129,7 @@ export default {
 
         ClientQPM.method('addEditContainer', { contdata: params });
         const response = await ClientQPM.fetch().then(t => t);
-        console.log(response);
+
         this.handleClose();
       } catch (error) {
         console.error(error);

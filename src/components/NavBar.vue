@@ -2,7 +2,7 @@
   <b-navbar fixed-top type="is-white" style="border-bottom: 1px solid #ddd;">
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
-        <img src="http://45.79.44.19:8888/QPMCalcServer/img/koona_logo_trim01.png" alt="" />
+        <img :src="require('../assets/logo.png')" alt="" />
       </b-navbar-item>
     </template>
 

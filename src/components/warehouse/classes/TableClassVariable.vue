@@ -127,6 +127,7 @@ export default {
     },
 
     getToDate: function(date) {
+      date = new Date(date);
       return `${moment(date).format('LT')} ${moment(date).format('L')}`;
     },
 

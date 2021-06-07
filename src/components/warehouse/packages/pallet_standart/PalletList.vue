@@ -36,11 +36,6 @@
       <b-table-column :label="language.WT_EF" v-slot="props">
         {{ props.row.pl_wtef }}
       </b-table-column>
-
-      <!-- <b-table-column>
-        <b-button outlined type="is-info" class="is-rounded" icon-left="pencil" />
-        <b-button outlined type="is-danger" class="is-rounded" icon-left="delete" />
-      </b-table-column> -->
     </b-table>
   </div>
 </template>
@@ -71,8 +66,6 @@ export default {
     // metodo que obtiene el listo de tipos de vehiculos
     getData: async function() {
       try {
-        console.log(this.sku);
-
         ClientQPM.method('getFullPalletsFromBoxIds', {
           items: { items: this.sku.id },
         });
@@ -83,8 +76,6 @@ export default {
           .catch(error => {
             throw error;
           });
-
-        console.log(pallets);
 
         this.list = pallets;
       } catch (error) {

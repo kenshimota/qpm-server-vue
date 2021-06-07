@@ -178,7 +178,6 @@ export default {
           .catch(error => {
             throw error;
           });
-
         this.reload();
         this.handleClose();
       } catch (error) {

@@ -199,7 +199,6 @@ export default {
 
         typeof this.reload == 'function' ? this.reload() : null;
 
-        console.log(response);
         this.handleClose();
       } catch (error) {
         this.$buefy.toast.open({

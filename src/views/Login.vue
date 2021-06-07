@@ -2,7 +2,7 @@
   <div>
     <section class="card-content">
       <div class="text-has-center margin-top">
-        <img width="300" src="http://45.79.44.19:8888/QPMCalcServer/img/koona_logo_trim01.png" />
+        <img width="300" :src="require('../assets/logo.png')" />
       </div>
 
       <b-field class="margin-top">

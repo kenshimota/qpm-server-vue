@@ -165,7 +165,6 @@ export default {
   // metodos que comprenden el componente
   methods: {
     closeAllOtherDetails(row) {
-      console.log(row);
       this.defaultOpenedDetails = [row.id];
     },
 

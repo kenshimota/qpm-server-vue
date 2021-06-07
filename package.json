@@ -3,20 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "@mdi/font": "^5.9.55",
     "buefy": "^0.9.6",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
-    "qpm-client-js": "^1.2.4",
+    "qpm-client-js": "^1.2.6",
+    "three": "^0.127.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
-    "webgl-show": "^0.0.4"
+    "vue-swatches": "^2.1.1",
+    "webgl-show": "^0.0.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

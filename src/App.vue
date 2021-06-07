@@ -1,10 +1,8 @@
 <template>
   <div id="app">
     <nav-bar />
-    <div class="container" style="padding: 10px;">
-      <div class="content-app">
-        <router-view />
-      </div>
+    <div class="container content-app" style="padding: 10px;">
+      <router-view />
     </div>
   </div>
 </template>
@@ -29,7 +27,8 @@ export default {
 
 /* fondo de contenido de las pantallas  */
 .content-app {
-  margin-top: 10px;
+  top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
   padding: 10px;
   background: #fff;
@@ -41,5 +40,15 @@ export default {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
   }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+html,
+body {
+  min-height: 100% !important;
+  height: 100%;
 }
 </style>

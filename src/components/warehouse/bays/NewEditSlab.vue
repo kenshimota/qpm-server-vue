@@ -1,38 +1,56 @@
 <template>
   <form v-on:submit="onSubmit">
-    <div class="modal-card" style="width: auto; min-width: 400px;">
+    <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ language.PALLET_EDIT }}</p>
         <button type="button" class="delete" @click="handleClose" />
       </header>
       <section class="modal-card-body">
-        <b-field :label="language.CODE">
-          <b-input v-model="slab_code" type="text" required />
-        </b-field>
+        <div class="columns is-multiline">
+          <div class="column is-6" ref="space-gl">
+            <b-field :label="language.CODE">
+              <b-input v-model="slab_code" type="text" />
+            </b-field>
 
-        <b-field :label="language.DESCRIPTION">
-          <b-input v-model="slab_descr" type="text" required />
-        </b-field>
+            <b-field :label="language.DESCRIPTION">
+              <b-input v-model="slab_descr" type="text" />
+            </b-field>
 
-        <b-field :label="language.NAME">
-          <b-input v-model="slab_name" type="text" required />
-        </b-field>
+            <b-field :label="language.NAME">
+              <b-input v-model="slab_name" type="text" />
+            </b-field>
+          </div>
+          <div class="col is-6">
+            <div style="width: fit-content;">
+              <b style="position: relative; top: -10; margin-right: 10px;">{{ language.COLOR }}</b>
+              <v-swatches v-model="slab_color"></v-swatches>
+            </div>
+            <pallet-gl
+              v-if="!widthGl == false"
+              width="widthGL"
+              height="widthGL"
+              :color="slab_color"
+            />
+          </div>
+          <div class="col is-6 padding-10">
+            <b-field :label="language.LENGTH">
+              <b-input v-model="slab_length" type="number" />
+            </b-field>
 
-        <b-field :label="language.LENGTH">
-          <b-input v-model="slab_length" type="text" required />
-        </b-field>
+            <b-field :label="language.HEIGHT">
+              <b-input v-model="slab_height" type="number" />
+            </b-field>
+          </div>
+          <div class="col is-6 padding-10">
+            <b-field :label="language.WIDTH">
+              <b-input v-model="slab_width" type="number" />
+            </b-field>
 
-        <b-field :label="language.HEIGHT">
-          <b-input v-model="slab_height" type="text" required />
-        </b-field>
-
-        <b-field :label="language.WIDTH">
-          <b-input v-model="slab_width" type="text" required />
-        </b-field>
-
-        <b-field :label="language.WEIGHT">
-          <b-input v-model="slab_weight" type="text" required />
-        </b-field>
+            <b-field :label="language.WEIGHT">
+              <b-input v-model="slab_weight" type="number" />
+            </b-field>
+          </div>
+        </div>
       </section>
       <footer class="modal-card-foot buttons is-pulled-right">
         <b-button
@@ -60,19 +78,28 @@
   font-weight: bold;
   font-size: 20px;
 }
+.padding-10 {
+  padding: 10px;
+}
 </style>
 
 <script>
 import { ClientQPM } from '../../../utils/qpm';
+import PalletGl from '../../PalletGL';
+import VSwatches from 'vue-swatches';
 import language from '../../../languages/index';
+import 'vue-swatches/dist/vue-swatches.css';
 
 export default {
   props: ['reload', 'resource'],
+
+  components: { PalletGl, VSwatches },
 
   data: () => ({
     loading: false,
     site_name: ClientQPM.getCurrentUser().site_name,
     language: language().content,
+    widthGl: null,
     slab_name: null,
     slab_code: null,
     slab_length: null,
@@ -80,10 +107,26 @@ export default {
     slab_weight: null,
     slab_width: null,
     slab_height: null,
+    slab_color: '#fff000',
   }),
 
   created: function() {
     for (const index in this.resource) this[index] = this.resource[index];
+  },
+
+  mounted: function() {
+    const element = this.$refs['space-gl'];
+    this.widthGl = element.offsetWidth;
+  },
+
+  watch: {
+    slab_color: function() {
+      this.widthGl = null;
+      setTimeout(() => {
+        const element = this.$refs['space-gl'];
+        this.widthGl = element.offsetWidth;
+      }, 200);
+    },
   },
 
   methods: {
@@ -113,12 +156,17 @@ export default {
             slab_descr: this.slab_descr,
             slab_enabled: true,
             slab_dwg: 1,
-            slab_color: '#fff000',
+            slab_color: this.slab_color,
             slab_unit: 1,
           },
         });
 
-        await ClientQPM.fetch().then(console.log);
+        await ClientQPM.fetch()
+          .then(t => t)
+          .catch(error => {
+            throw error;
+          });
+
         this.reload();
         this.handleClose();
       } catch (error) {
