@@ -57,7 +57,7 @@
                 'media-list': true,
                 'media-list-active': select && truck_type.id == select.id,
               }"
-              @click="select = truck_type"
+              @click="setSelect(truck_type)"
             >
               <div class="media-left">
                 <b-icon :type="truck_type.cabcolor" icon="truck" />
@@ -91,9 +91,71 @@
       </div>
 
       <div class="column is-9" style="max-height: 900px; overflow: hidden scroll;">
-        <div v-if="!select == false">
+        <div v-if="!select == false && !mobile">
           <div class="columns is-multiline">
-            <div class="column is-12"></div>
+            <div class="column is-12">
+              <div class="columns is-multiline has-background-lighter" style="padding: 10px;">
+                <div class="column is-12">
+                  <hr />
+                  <p class="subtitle">
+                    <span>{{ language.DETAILS }}</span>
+                  </p>
+                </div>
+
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.CODE }}</b> {{ select.code }}
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.SEDE }}</b> {{ select.sitename }}
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.CONTAINERS }}</b> {{ select.containers.length }}
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.SERIAL }}</b> {{ select.serial }}
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.VOLUMEN }}</b> {{ select.volume }}
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.UPDATED }}</b>
+                    {{ select.updated && getToDate(select.updated) }}
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.AXLES }}</b>
+                    {{ select.axles.length }}
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <p class="has-text-justified">
+                    <b>{{ language.BAYS }}</b>
+                    {{ select.bays.length }}
+                  </p>
+                </div>
+                <div class="column is-12 has-text-right">
+                  <b-button type="is-info" style="margin-right: 10px;" icon-right="pencil">
+                    {{ language.EDIT }}
+                  </b-button>
+                  <b-button type="is-danger" icon-right="delete">
+                    {{ language.DELETE }}
+                  </b-button>
+                  <hr />
+                </div>
+              </div>
+            </div>
             <div class="column is-12">
               <trucks-list :truck_type="select" :language="language" />
             </div>
@@ -122,6 +184,7 @@
 <script>
 import { ClientQPM } from '../../../utils/qpm';
 import TrucksList from './TrucksList';
+import DialogMobile from './DialogTruckTypeMobile';
 import moment from 'moment';
 
 export default {
@@ -136,6 +199,7 @@ export default {
     loading: false,
     sede: ClientQPM.getCurrentUser().site_name,
     select: null,
+    mobile: window.screen.width <= 1000,
   }),
 
   mounted: function() {
@@ -143,6 +207,23 @@ export default {
   },
 
   methods: {
+    // aperturando dialogo
+    openDialogMobile: function(resource) {
+      this.$buefy.modal.open({
+        parent: this,
+        fullScreen: true,
+        props: { resource, language: this.language },
+        component: DialogMobile,
+      });
+    },
+
+    setSelect: function(resource) {
+      console.log(resource);
+      this.mobile = window.screen.width <= 1000;
+      this.select = resource;
+      if (this.mobile) this.openDialogMobile(resource);
+    },
+
     // obteniendo la fecha
     getToDate: function(date) {
       date = new Date(date);

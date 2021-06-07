@@ -128,7 +128,11 @@ export default {
         params.cont_gapht = params.container_height;
 
         ClientQPM.method('addEditContainer', { contdata: params });
-        const response = await ClientQPM.fetch().then(t => t);
+        await ClientQPM.fetch()
+          .then(t => t)
+          .catch(error => {
+            throw error;
+          });
 
         this.handleClose();
       } catch (error) {

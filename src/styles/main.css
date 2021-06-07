@@ -46,3 +46,8 @@
   border-bottom-color: #333;
   color: #666;
 }
+
+button.modal-close {
+  top: 15px;
+  background: hsl(348, 100%, 61%);
+}

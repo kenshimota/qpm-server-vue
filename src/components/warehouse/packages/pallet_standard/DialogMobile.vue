@@ -1,7 +1,7 @@
 <template>
   <div class="modal-card" style="width: auto">
-    <header class="modal-card-head is-primary">
-      <p class="modal-card-title">
+    <header class="modal-card-head has-background-info">
+      <p class="modal-card-title has-text-white">
         {{ language.SKU_DETAILS }}
       </p>
     </header>

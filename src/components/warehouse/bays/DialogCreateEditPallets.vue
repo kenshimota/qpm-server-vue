@@ -191,7 +191,7 @@ export default {
         };
 
         ClientQPM.method('addEditPalletConstraints', { palletinfo: params });
-        const response = await ClientQPM.fetch()
+        await ClientQPM.fetch()
           .then(t => t)
           .catch(error => {
             throw error;
