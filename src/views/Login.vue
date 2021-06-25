@@ -1,8 +1,14 @@
 <template>
   <div>
-    <section class="card-content">
+    <form v-on:submit="login" class="card-content">
       <div class="text-has-center margin-top">
         <img width="300" :src="require('../assets/logo.png')" />
+      </div>
+
+      <div v-if="!error == false">
+        <b-notification type="is-danger" aria-close-label="Close notification" role="alert">
+          {{ error }}
+        </b-notification>
       </div>
 
       <b-field class="margin-top">
@@ -36,7 +42,7 @@
           <span>{{ language.LOGIN }}</span>
         </b-button>
       </div>
-    </section>
+    </form>
   </div>
 </template>
 
@@ -48,16 +54,25 @@ export default {
     language: language().content,
     username: '',
     password: '',
+    error: '',
   }),
 
   methods: {
     login: async function() {
       try {
         const { username, password } = this;
+        this.error = '';
         await ClientLogin({ username, password });
         this.$router.back();
       } catch (error) {
         console.error(error);
+        this.$buefy.notification.open({
+          duration: 5000,
+          message: error,
+          position: 'is-top',
+          type: 'is-danger',
+          hasIcon: false,
+        });
       }
     },
 

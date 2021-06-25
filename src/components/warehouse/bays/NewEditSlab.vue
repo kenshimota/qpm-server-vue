@@ -27,8 +27,9 @@
             </div>
             <pallet-gl
               v-if="!widthGl == false"
-              width="widthGL"
-              height="widthGL"
+              :width="slab_width"
+              :height="slab_height"
+              :length = "slab_length"
               :color="slab_color"
             />
           </div>

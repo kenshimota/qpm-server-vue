@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ width: cvWidth, height: cvHeight }" ref="div-box"></div>
+  <div :style="{ width: cvWidth, height: cvHeight }" ref="div-cylinder"></div>
 </template>
 
 <script>
@@ -8,25 +8,26 @@ const THREE = require('three');
 
 const disposeFigure = function() {
   try {
-    const { cubeParent, cube } = this;
-    if (!cubeParent) return;
-    const { data, length } = this.createCalculate();
-    cube.figure.material.emissive = new THREE.Color(this.color);
-    cubeParent.setAttributes([data.width, data.height, length]);
-    cube.setAttributes([data.width, data.height, length]);
+    const { cylinderParent, cylinder } = this;
+    if (!cylinderParent) return;
+    const { radius, height } = this.createCalculate();
+
+    cylinderParent.setAttributes([radius, radius, height]);
+    cylinder.setAttributes([radius, radius, height]);
+    cylinder.figure.material.emissive = new THREE.Color(this.color);
   } catch (error) {
     console.error(error);
   }
 };
 
 export default {
-  props: ['width', 'height', 'length', 'color', 'dwWidth', 'dwHeight'],
+  props: ['radius', 'height', 'color', 'dwWidth', 'dwHeight'],
   data: () => ({
-    graph: {},
+    graph: null,
     cvWidth: 300,
     cvHeight: 300,
-    cubeParent: null,
-    cube: null,
+    cylinderParent: null,
+    cylinder: null,
   }),
 
   mounted: function() {
@@ -41,41 +42,37 @@ export default {
 
   watch: {
     height: disposeFigure,
-    width: disposeFigure,
-    length: disposeFigure,
+    radius: disposeFigure,
     color: disposeFigure,
   },
 
   methods: {
+    // se encarga de calcular el espacio en la escena determinada
     createCalculate: function() {
       const data = { maxWidth: this.cvWidth, maxHeight: this.cvHeight };
-      const { width, height } = this;
-      let length = this.length;
+      const { radius, height } = this;
 
-      if (width < height) {
-        data.width = (data.maxWidth * width) / height;
-        length = (data.maxWidth * length) / height;
+      if (radius <= height) {
+        data.radius = (data.maxWidth * radius) / height;
         data.height = data.maxHeight;
       } else {
-        data.height = (data.maxHeight * height) / width;
-        length = (data.maxHeight * length) / width;
-        data.width = data.maxWidth;
+        data.height = (data.maxHeight * height) / radius;
+        data.radius = data.maxWidth;
       }
 
-      data.width = data.width / 100;
+      data.radius = data.radius / 100;
       data.height = data.height / 100;
-      length = length / 100;
 
-      return { data, length };
+      return data;
     },
 
-    createCube: function({ graph }) {
+    createCylinder: function({ graph }) {
       try {
-        const { data, length } = this.createCalculate();
+        const { radius, height } = this.createCalculate();
 
-        const cube = graph.createFigure({
-          geometry: 'BoxGeometry',
-          attributes: [data.width, data.height, length],
+        const cylinder = graph.createFigure({
+          geometry: 'CylinderGeometry',
+          attributes: [radius, radius, height],
           material: {
             type: 'lambert',
             emissive: this.color,
@@ -84,9 +81,9 @@ export default {
           },
         });
 
-        const cubeParent = graph.createFigure({
-          geometry: 'BoxGeometry',
-          attributes: [data.width, data.height, length],
+        const cylinderParent = graph.createFigure({
+          geometry: 'CylinderGeometry',
+          attributes: [radius, radius, height],
           material: {
             type: 'lambert',
             emissive: 0x000000,
@@ -95,16 +92,17 @@ export default {
             wireframe: true,
           },
         });
-        cubeParent.add(cube);
 
-        cubeParent.animation = function() {
+        cylinderParent.add(cylinder);
+
+        cylinderParent.animation = function() {
           this.figure.rotation.y += 0.01;
           this.figure.rotation.x += 0.01;
         };
 
-        this.cubeParent = cubeParent;
-        this.cube = cube;
-        graph.addFigure(cubeParent);
+        this.cylinderParent = cylinderParent;
+        this.cylinder = cylinder;
+        graph.addFigure(cylinderParent);
       } catch (error) {
         console.error(error);
       }
@@ -113,7 +111,7 @@ export default {
     createfigure: async function() {
       try {
         const data = { maxWidth: this.cvWidth, maxHeight: this.cvHeight };
-        const element = this.$refs['div-box'];
+        const element = this.$refs['div-cylinder'];
 
         const graph = await WebGl({
           element,
@@ -123,10 +121,10 @@ export default {
         });
 
         graph.setLight({ intensity: 0.4, color: 0x111111, position: { x: 1, y: 1, z: 4 } });
-        graph.setLight({ intensity: 0.3, color: 0xffffff, position: { x: -1, y: -2, z: 4 } });
+        graph.setLight({ intensity: 0.45, color: 0xffffff, position: { x: -1, y: -2, z: 4 } });
         this.graph = graph;
 
-        this.createCube({ data, graph });
+        this.createCylinder({ data, graph });
       } catch (error) {
         console.error(error);
       }

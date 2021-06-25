@@ -49,5 +49,9 @@
 
 button.modal-close {
   top: 15px;
-  background: hsl(348, 100%, 61%);
+}
+
+.select,
+.select select {
+  width: 100%;
 }

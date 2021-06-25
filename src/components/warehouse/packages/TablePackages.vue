@@ -27,6 +27,10 @@
       :loading="loading"
       detail-key="id"
       detailed
+      :paginated="!search == false"
+      :per-page="perPage"
+      pagination-rounded
+      pagination-order="is-centered"
       detail-transition="fade"
       :show-detail-icon="true"
       :opened-detailed="defaultOpenedDetails"
@@ -89,22 +93,20 @@
     <template name="footer">
       <div if="!typeScroll" class="has-text-right" style="margin-top: 10px;">
         <div class="buttons" style="float: right;">
-          <b-button
-            v-if="page > 1"
-            @click="onChangePage(page - 1)"
-            size="is-small"
-            icon-left="arrow-left"
-          >
-            {{ language.BACK }}
-          </b-button>
-          <b-button
-            v-if="list.length == perPage"
-            @click="onChangePage(page + 1)"
-            size="is-small"
-            icon-right="arrow-right"
-          >
-            {{ language.NEXT }}
-          </b-button>
+          <b-pagination
+            v-if="!search"
+            :total="total"
+            v-model="page"
+            :range-before="rangeBefore"
+            :range-after="rangeAfter"
+            order="is-centered"
+            :per-page="perPage"
+            icon-prev="chevron-left"
+            icon-next="chevron-right"
+            :aria-next-label="language.NEXT"
+            :aria-previous-label="language.BACK"
+            rounded
+          />
         </div>
       </div>
     </template>
@@ -134,6 +136,11 @@ export default {
     page: 1,
     loading: false,
     perPage: 20,
+    rangeAfter: 1,
+    rangeBefore: 3,
+    total: null,
+    preIcon: 'chevron-left',
+    nextIcon: 'chevron-right',
     site_name: null,
     typeScroll: false,
     search: '',
@@ -149,6 +156,10 @@ export default {
   watch: {
     typeScroll: function() {
       this.setEventScroll();
+    },
+
+    page: function(value) {
+      if (!this.search) this.getData();
     },
 
     search: function() {
@@ -223,6 +234,14 @@ export default {
 
         window.scroll(0, 0); // subiendo pantalla a lado superior de esta para no tener inconvenientes
       });
+
+      if (!params.searchstring) {
+        ClientQPM.method('getFullBoxCount', {
+          sitename: { site_name: this.site_name },
+        })
+          .fetch()
+          .then(({ count }) => (this.total = count));
+      }
     },
   },
 };

@@ -32,6 +32,7 @@ export default {
   margin-bottom: 10px;
   padding: 10px;
   background: #fff;
+  min-height: 95%;
 }
 
 @media (min-width: 640px) {
@@ -46,8 +47,10 @@ export default {
   padding: 0;
   margin: 0;
 }
+
 html,
-body {
+body,
+#app {
   min-height: 100% !important;
   height: 100%;
 }

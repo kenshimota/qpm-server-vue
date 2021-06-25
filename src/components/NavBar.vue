@@ -16,6 +16,12 @@
       <b-navbar-item tag="router-link" :to="{ path: '/warehouse' }">
         <span>{{ language.content.WAREHOUSE }}</span>
       </b-navbar-item>
+
+      <b-navbar-dropdown :label="language.content.MORE">
+        <b-navbar-item type="buttton" @click="$router.push('/fill-container')">
+          {{ language.content.FILL_CONTAINER }}
+        </b-navbar-item>
+      </b-navbar-dropdown>
     </template>
 
     <template #end>

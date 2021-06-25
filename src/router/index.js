@@ -10,6 +10,11 @@ const routes = [
   { path: '/drivers', component: () => import('../views/Drivers') },
   { path: '/language', name: 'Language', component: () => import('../views/Language') },
   { path: '/login', name: 'Login', component: () => import('../views/Login') },
+  {
+    path: '/fill-container',
+    name: 'FillCoontainer',
+    component: () => import('../views/FillContainers'),
+  },
 ];
 
 const router = new VueRouter({

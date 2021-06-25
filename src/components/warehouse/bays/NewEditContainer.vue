@@ -134,6 +134,7 @@ export default {
             throw error;
           });
 
+        typeof this.reload == "function" ? this.reload() : null;
         this.handleClose();
       } catch (error) {
         console.error(error);

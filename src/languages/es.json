@@ -75,5 +75,21 @@
   "QUANTITY": "Cantidad",
   "CLIENT_ID": "Cliente ID",
   "SEQUENCE": "Secuencia",
-  "TRIP": "Trip"
+  "TRIP": "Trip",
+  "MORE": "Más",
+  "FILL_CONTAINER": "LLenar Contenedor",
+  "INPUT_DATA": "Datos de Entrada",
+  "SHIPMENTS": "Envios",
+  "CONTAINER": "Contenedor",
+  "DIMENTIONS": "Dimensiones",
+  "ITEMS": "Acticulos",
+  "BOX": "Caja",
+  "CYLINDER": "Cilindro",
+  "PROPERTIES": "Propiedades",
+  "ADD": "Agregar",
+  "DIAMETER": "Diametro",
+  "DIMENTIONS_MIN": "Dimensiones Min.",
+  "DIMENTIONS_MAX": "Dimesiones Max.",
+  "DIMENTIONS_INTERNAL": "Dimensiones Internas",
+  "CONTAINER_TYPE": "Tipo de Contenedor"
 }
