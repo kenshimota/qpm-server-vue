@@ -20,6 +20,7 @@
                 trap-focus
                 v-model="start"
                 rounded
+                locale="en-GB"
               />
             </b-field>
           </div>
@@ -31,6 +32,7 @@
                 trap-focus
                 v-model="end"
                 rounded
+                locale="en-GB"
               />
             </b-field>
           </div>

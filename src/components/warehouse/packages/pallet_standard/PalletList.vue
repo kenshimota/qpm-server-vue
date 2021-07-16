@@ -1,8 +1,15 @@
 <template>
   <div>
-    <b-table striped class="has-text-left" :loading="loading" :data="list">
+    <b-table
+      striped
+      focusable
+      :selected.sync="selected"
+      class="has-text-left"
+      :loading="loading"
+      :data="list"
+    >
       <b-table-column :label="language.PALLET" v-slot="props">
-        {{ props.row.bay_code }}
+        {{ props.row.pallet_code }}
       </b-table-column>
 
       <b-table-column :label="language.SKU" v-slot="props">
@@ -43,13 +50,14 @@
 <script>
 import { ClientQPM } from '../../../../utils/qpm';
 export default {
-  props: ['language', 'sku'],
+  props: ['language', 'sku', 'setPallet'],
 
   data: () => ({
     page: 1,
     perPage: 20,
     list: [],
     loading: false,
+    selected: null,
   }),
 
   mounted: function() {
@@ -59,6 +67,10 @@ export default {
   watch: {
     sku: function() {
       this.getData();
+    },
+
+    selected: function(value) {
+      if (value && typeof this.setPallet == 'function') this.setPallet(value);
     },
   },
 
@@ -76,6 +88,8 @@ export default {
           .catch(error => {
             throw error;
           });
+
+        console.log(pallets);
 
         this.list = pallets;
       } catch (error) {

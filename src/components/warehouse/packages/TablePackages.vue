@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="columns">
-      <div class="column is-3">
+      <div class="column" style="max-width: 180px;">
         <div class="has-text-left">
           <b>{{ language.CAMPUS }}: </b>
           <span>{{ site_name }}</span>
         </div>
       </div>
-      <div class="column is-9">
+      <div class="column">
         <b-field>
           <b-input
             :placeholder="language.SEARCH"
@@ -78,6 +78,38 @@
         </span>
       </b-table-column>
 
+      <b-table-column v-slot="props">
+        <b-dropdown>
+          <!-- Button Trigger -->
+          <template slot="trigger">
+            <b-button class="is-rounded" icon-right="dots-vertical" />
+          </template>
+
+          <!-- Items DropDown -->
+          <b-dropdown-item aria-role="listitem" @click="openDialogCalculate(props.row, 'TALL')">
+            {{ language.TALL }}
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="openDialogCalculate(props.row, 'SHORT')">
+            {{ language.SHORT }}
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="openDialogCalculate(props.row, 'HALF')">
+            {{ language.HALF }}
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="openDialogCalculate(props.row, 'UNITS')">
+            {{ language.UNITS }}
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="openDialogCalculate(props.row, 'TALLMD')">
+            {{ language.TALLMD }}
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="openDialogCalculate(props.row, 'LOWROY')">
+            {{ language.LOWROY }}
+          </b-dropdown-item>
+        </b-dropdown>
+
+        <b-button outlined type="is-info" class="is-rounded" icon-left="pencil" />
+        <b-button outlined type="is-danger" class="is-rounded" icon-left="delete" />
+      </b-table-column>
+
       <template #detail="props">
         <div style="width: fit-content; margin: 5px auto;">
           <box-gl
@@ -116,6 +148,8 @@
 <script>
 import { ClientQPM } from '../../../utils/qpm';
 import BoxGl from './BoxGl';
+import FormTallBox from './FormTallBox.vue';
+
 let timeSearch = null;
 
 export default {
@@ -158,7 +192,7 @@ export default {
       this.setEventScroll();
     },
 
-    page: function(value) {
+    page: function() {
       if (!this.search) this.getData();
     },
 
@@ -175,6 +209,20 @@ export default {
 
   // metodos que comprenden el componente
   methods: {
+    openDialogCalculate: function(resource, code) {
+      const { language } = this;
+
+      this.$buefy.modal.open({
+        parent: this,
+        props: { resource, language, code },
+        component: FormTallBox,
+        hasModalCard: true,
+        customClass: 'custom-class custom-class-2',
+        trapFocus: true,
+      });
+    },
+
+    // funcion que se encarga de cerrar los detalles
     closeAllOtherDetails(row) {
       this.defaultOpenedDetails = [row.id];
     },

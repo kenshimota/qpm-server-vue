@@ -20,8 +20,7 @@
           icon-right="close-circle"
           icon-right-clickable
           @icon-right-click="clearUser"
-        >
-        </b-input>
+        />
       </b-field>
 
       <b-field class="margin-top">
@@ -33,8 +32,7 @@
           icon-right="close-circle"
           icon-right-clickable
           @icon-right-click="clearPassword"
-        >
-        </b-input>
+        />
       </b-field>
 
       <div class="margin-top" style="text-align: right;">
@@ -56,6 +54,16 @@ export default {
     password: '',
     error: '',
   }),
+
+  mounted: function() {
+    const inputs = document.querySelectorAll('input.input');
+    for (const index in inputs) {
+      const input = inputs[index];
+      input.onkeydown = ({ keyCode }) => {
+        if (keyCode == 13) this.login();
+      };
+    }
+  },
 
   methods: {
     login: async function() {

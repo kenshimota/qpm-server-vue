@@ -98,6 +98,8 @@ export default {
             throw error;
           });
 
+        console.log(routes);
+
         for (const index in routes) {
           // seteando busqueda de datos de la ruta
           ClientQPM.method('readRouteWithCalcInfo', { routeid: { id: routes[index].id } });
@@ -146,8 +148,6 @@ export default {
 
           routes[index] = { ...response, ...routes[index] };
         }
-
-        console.log(routes);
 
         this.list = routes;
         this.loading = false;

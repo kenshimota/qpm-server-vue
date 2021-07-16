@@ -91,5 +91,15 @@
   "DIMENTIONS_MIN": "Minumin Dimentions",
   "DIMENTIONS_MAX": "Maximum Dimentions",
   "DIMENTIONS_INTERNAL": "Internal Dimentions",
-  "CONTAINER_TYPE": "Container Type"
+  "CONTAINER_TYPE": "Container Type",
+  "TALL": "Tall",
+  "LOWROY": "Lowroy",
+  "TALLMD": "Tall MD",
+  "UNITS": "Units",
+  "HALF": "Half",
+  "SHORT": "Short",
+  "CALCULATE": "Calculate",
+  "BOXES_FOR_LITTER": "Boxes / Litter",
+  "LITTERS_FOR_PALLET": "Litters / Pallet",
+  "BOXES_FOR_PALLET": "Boxes / Pallet"
 }

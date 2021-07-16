@@ -11,9 +11,10 @@ const initWatch = function() {
 };
 
 export default {
-  props: ['width', 'height', 'length', 'color', 'dwWidth', 'dwHeight'],
+  props: ['width', 'height', 'length', 'color', 'dwWidth', 'dwHeight', 'fullbox'],
   data: () => ({
     graph: null,
+    shapeGeometry: null,
     cvWidth: 300,
     cvHeight: 300,
   }),
@@ -36,6 +37,85 @@ export default {
   },
 
   methods: {
+    // esta funcion se encarga de calcular y empezar agregar las cajas
+    createBox: function({ width, height, length, color }) {
+      const { graph } = this;
+
+      const cube = graph.createFigure({
+        geometry: 'BoxGeometry',
+        attributes: [width, height, length],
+        material: {
+          emissive: color,
+          transparent: true,
+          opacity: 0.9,
+        },
+      });
+
+      const cubeParent = graph.createFigure({
+        geometry: 'BoxGeometry',
+        attributes: [width, height, length],
+        material: {
+          transparent: true,
+          opacity: 0.6,
+          wireframe: true,
+        },
+      });
+      cubeParent.add(cube);
+
+      return cubeParent;
+    },
+
+    setFigure: function(space, figure, dimensions) {
+      if (space.minX + dimensions.width > space.maxX) {
+        space.minX = space.initX;
+        space.minY += dimensions.length;
+      }
+
+      if (space.minY + dimensions.length > space.maxY) {
+        space.minX = space.initX;
+        space.minY = space.initY;
+        space.minZ += dimensions.height;
+      }
+
+      //if (space.minZ + dimensions.height < space.maxZ)
+      //  throw 'disculpe ya no hya espacio para seguir insertando';
+
+      const point = {
+        z: space.minZ + dimensions.height / 2,
+        y: space.minY + dimensions.length / 2,
+        x: space.minX + dimensions.width / 2,
+      };
+
+      figure.setPosition(point);
+      space.minX += dimensions.width;
+    },
+
+    setFullBoxes: function(data) {
+      const { width, length } = data;
+      const height = width / 5;
+      const { shapeGeometry, graph } = this;
+      const spaceFigure = {
+        minZ: data.holeWidth + data.holeWidth,
+        maxZ: data.holeWidth * 12,
+        initX: -data.width / 2,
+        minX: -data.width / 2,
+        maxX: data.width / 2,
+        initY: -data.length / 2,
+        minY: -data.length / 2,
+        maxY: data.length / 2,
+      };
+
+      for (let i = 0; i < 100; i++) {
+        const params = { width: width / 5, height, length: length / 5, color: 'yellow' };
+        const box = this.createBox(params);
+        this.setFigure(spaceFigure, box, params);
+        shapeGeometry.add(box);
+      }
+
+      const { camera } = graph;
+      camera.position.z *= 1.6;
+    },
+
     createfigure: async function() {
       try {
         let { width, height, length, color } = this;
@@ -107,6 +187,7 @@ export default {
         shapeGeometry.animation = function() {
           this.figure.rotation.x = -1;
           this.figure.rotation.z -= 0.012;
+          // this.figure.rotation.y -= 0.01;
         };
 
         data.widthPallet = data.holeWidth * 0.9;
@@ -197,6 +278,13 @@ export default {
         camera.position.y = 0;
         camera.position.x = 0;
         camera.lookAt(shapeGeometry.figure.position);
+
+        console.log(camera);
+
+        this.shapeGeometry = shapeGeometry;
+        this.graph = graph;
+
+        if (this.fullbox) this.setFullBoxes(data);
       } catch (error) {
         console.error(error);
       }

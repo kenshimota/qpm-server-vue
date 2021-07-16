@@ -83,10 +83,25 @@
         </div>
       </div>
       <div class="column is-9" v-if="!mobile">
-        <pallet-list v-if="!selected == false" :sku="selected" :language="language" />
+        <pallet-list
+          v-if="!selected == false"
+          :set-pallet="setSelectPallet"
+          :sku="selected"
+          :language="language"
+        />
+
         <div style="width: fit-content; margin: 5px auto;">
+          <pallet-gl
+            v-if="!selectedPallet == false"
+            :fullbox="true"
+            :color="selectedPallet.pallet_color"
+            :width="selectedPallet.pallet_width"
+            :length="selectedPallet.pallet_length"
+            :height="selectedPallet.pallet_height"
+          />
+
           <box-gl
-            v-if="!selected == false"
+            v-if="!selected == false && !selectedPallet"
             :color="selected.box_color"
             :width="selected.box_extwidth"
             :height="selected.box_extheight"
@@ -103,13 +118,15 @@
 <script>
 import language from '../../../../languages/index';
 import { ClientQPM } from '../../../../utils/qpm';
+import PalletGl from '../../../PalletGL.vue';
 import PalletList from './PalletList';
 import BoxGl from '../BoxGl';
 import DialogMobile from './DialogMobile';
+
 let timeSearch = null;
 
 export default {
-  components: { PalletList, BoxGl },
+  components: { PalletList, BoxGl, PalletGl },
 
   data: () => ({
     loading: false,
@@ -118,6 +135,7 @@ export default {
     page: 1,
     perPage: 20,
     search: '',
+    selectedPallet: null,
     selected: null,
     language: language().content,
     site_name: ClientQPM.getCurrentUser().site_name,
@@ -141,6 +159,11 @@ export default {
   },
 
   methods: {
+    // funcion que se encarga de la seleccion de paletas
+    setSelectPallet: function(pallet) {
+      this.selectedPallet = pallet;
+    },
+
     // funcion de obtener el listado
     setPage: function(event) {
       const { scrollTop, scrollHeight } = event.target;
@@ -152,6 +175,7 @@ export default {
 
     setSelect: function(resource) {
       this.selected = null;
+      this.selectedPallet = null;
       setTimeout(() => {
         this.mobile = window.screen.width <= 1000;
         this.selected = resource;
