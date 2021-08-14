@@ -2,6 +2,8 @@ import { QPM } from 'qpm-client-js';
 import config from './qpm.config.json';
 let session = !sessionStorage.getItem('qpm-session') == false;
 
+console.log(config);
+
 // permiste verificar los datos del usuario
 export const isLogin = () => session;
 
@@ -27,6 +29,8 @@ export const setLogout = async () => {
 export const ClientQPM = QPM(
   sessionStorage.getItem('qpm-session') ? JSON.parse(sessionStorage.getItem('qpm-session')) : {}
 );
+
+if (window && !window.ClientQPM) window.ClientQPM = ClientQPM;
 
 /* funcion que se encarga de el inicio de session de un usuario */
 export const ClientLogin = async function({ username, password }) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="columns">
-      <div class="column" style="max-width: 180px;">
+      <div class="column" style="max-width: 250px;">
         <div class="has-text-left">
           <b>{{ language.CAMPUS }}: </b>
           <span>{{ site_name }}</span>
@@ -106,8 +106,14 @@
           </b-dropdown-item>
         </b-dropdown>
 
-        <b-button outlined type="is-info" class="is-rounded" icon-left="pencil" />
-        <b-button outlined type="is-danger" class="is-rounded" icon-left="delete" />
+        <!--<b-button outlined type="is-info" class="is-rounded" icon-left="pencil" />-->
+        <b-button
+          outlined
+          type="is-danger"
+          class="is-rounded"
+          icon-left="delete"
+          @click="openDelete(props.row)"
+        />
       </b-table-column>
 
       <template #detail="props">
@@ -209,6 +215,45 @@ export default {
 
   // metodos que comprenden el componente
   methods: {
+    openDelete: function(resource) {
+      this.$buefy.dialog.confirm({
+        title: 'Eliminar SKU',
+        message:
+          '¿Usted esta seguro que desea <b>Eliminar</b> el siguiente SKU? Esta accion no puede ser corregida.',
+        confirmText: this.language.DELETE,
+        cancelText: this.language.CANCEL,
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: async () => {
+          try {
+            // establecinedo method, sus parametros y solicitando sus datops
+            ClientQPM.method('deleteFullBox', { boxid: { id: resource.id } });
+            await ClientQPM.fetch()
+              .then(response => response)
+              .catch(error => {
+                throw error;
+              });
+
+            // mostrando el mensaje de exito
+            this.$buefy.toast.open({
+              message: 'El SKU fue eliminado con exito',
+              type: 'is-success',
+              hasIcon: true,
+            });
+
+            // actualizando los datos de la table
+            this.getData();
+          } catch (error) {
+            this.$buefy.toast.open({
+              type: 'is-danger',
+              message: error,
+              hasIcon: true,
+            });
+          }
+        },
+      });
+    },
+
     openDialogCalculate: function(resource, code) {
       const { language } = this;
 

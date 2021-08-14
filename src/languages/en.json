@@ -101,5 +101,14 @@
   "CALCULATE": "Calculate",
   "BOXES_FOR_LITTER": "Boxes / Litter",
   "LITTERS_FOR_PALLET": "Litters / Pallet",
-  "BOXES_FOR_PALLET": "Boxes / Pallet"
+  "BOXES_FOR_PALLET": "Boxes / Pallet",
+  "TRUCK_CODE": "Truck Code",
+  "SIDE": "Side",
+  "CUSTOM": "Custom",
+  "MIXED": "Mixed",
+  "LOAD_METHOD": "Load Method",
+  "AXLE": "Eje",
+  "MAX_WEIGHT": "Max Weight",
+  "WHEELES": "Wheeles",
+  "BAY": "Bay"
 }

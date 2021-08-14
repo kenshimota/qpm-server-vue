@@ -43,7 +43,7 @@
           <div class="column is-12">
             <div class="container has-text-right" style="margin-bottom: 10px;">
               <span>
-                <b-button type="is-info" icon-left="plus" @click="openNewEditTruck()">
+                <b-button type="is-info" icon-left="plus" @click="openNewEditTruckType()">
                   <span>{{ language.NEW }}</span>
                 </b-button>
               </span>
@@ -146,10 +146,15 @@
                   </p>
                 </div>
                 <div class="column is-12 has-text-right">
-                  <b-button type="is-info" style="margin-right: 10px;" icon-right="pencil">
+                  <b-button
+                    type="is-info"
+                    style="margin-right: 10px;"
+                    @click="openNewEditTruckType(select)"
+                    icon-right="pencil"
+                  >
                     {{ language.EDIT }}
                   </b-button>
-                  <b-button type="is-danger" icon-right="delete">
+                  <b-button type="is-danger" icon-right="delete" @click="openDelete(select)">
                     {{ language.DELETE }}
                   </b-button>
                   <hr />
@@ -185,6 +190,7 @@
 import { ClientQPM } from '../../../utils/qpm';
 import TrucksList from './TrucksList';
 import DialogMobile from './DialogTruckTypeMobile';
+import DialogTrucksNewEditType from './DialogNewEditTruckType';
 import moment from 'moment';
 
 export default {
@@ -207,6 +213,21 @@ export default {
   },
 
   methods: {
+    openNewEditTruckType: function(resource) {
+      this.$buefy.modal.open({
+        parent: this,
+        props: {
+          resource: resource,
+          language: this.language,
+          reload: this.getData,
+        },
+        component: DialogTrucksNewEditType,
+        hasModalCard: true,
+        customClass: 'custom-class custom-class-2',
+        trapFocus: true,
+      });
+    },
+
     // aperturando dialogo
     openDialogMobile: function(resource) {
       this.$buefy.modal.open({
@@ -236,13 +257,13 @@ export default {
         ClientQPM.method('getTruckTypesFromSite', { sede: { sede: this.sede } });
         this.loading = true;
 
-        const trucks_type = await ClientQPM.fetch()
+        const { trucks } = await ClientQPM.fetch()
           .then(t => t)
           .catch(error => {
             throw error;
           });
 
-        this.list = trucks_type;
+        this.list = trucks;
       } catch (error) {
         console.error(error);
       } finally {
@@ -252,7 +273,7 @@ export default {
 
     openDelete: function(resource) {
       this.$buefy.dialog.confirm({
-        title: 'Eliminar Tipo',
+        title: 'Eliminar Tipo ',
         message:
           '¿Usted esta seguro que desea <b>Eliminar</b> el siguiente tipo? Esta accion no puede ser corregida.',
         confirmText: this.language.DELETE,
@@ -262,7 +283,7 @@ export default {
         onConfirm: async () => {
           try {
             // establecinedo method, sus parametros y solicitando sus datops
-            ClientQPM.method('deleteContainer', { contid: { id: resource.id } });
+            ClientQPM.method('deleteTruckClass', { truckid: { id: resource.id } });
             await ClientQPM.fetch()
               .then(response => response)
               .catch(error => {
@@ -271,7 +292,7 @@ export default {
 
             // mostrando el mensaje de exito
             this.$buefy.toast.open({
-              message: 'El container fue eliminado con exito',
+              message: 'El tipo fue eliminado con exito',
               type: 'is-success',
               hasIcon: true,
             });

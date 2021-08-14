@@ -1,54 +1,85 @@
 <template>
   <form v-on:submit="onSubmit">
-    <div class="modal-card" style="width: auto; min-width: 400px;">
+    <div class="modal-card container-form">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ language.TRUCK_EDIT }}</p>
         <button type="button" class="delete" @click="handleClose" />
       </header>
       <section class="modal-card-body">
-        <b-field :label="language.TRUCK_TYPE">
-          <b-autocomplete
-            :data="filterTrucksType()"
-            :loading="loading_type"
-            v-model="text_type"
-            field="modelname"
-            @select="option => (truck_type = option)"
-          >
-            <template slot-scope="props">
-              <div class="media">
-                <div class="media-left">
-                  <b-icon icon="car" />
-                </div>
-                <div class="media-content">
-                  {{ props.option.serial }}
-                  <br />
-                  <small>
-                    <b>{{ language.CODE }}</b> {{ props.option.code }}
-                  </small>
-                  <small>
-                    <b>{{ language.MODEL }}</b> {{ props.option.modelname }}
-                  </small>
+        <div class="columns is-multiline">
+          <div class="column is-12">
+            <div class="columns is-multiline">
+              <div class="column is-4">
+                <b-field :label="language.TRUCK_CODE">
+                  <b-input v-model="code" type="text" required />
+                </b-field>
+              </div>
+              <div class="column is-4">
+                <b-field :label="language.DESCRIPTION">
+                  <b-input v-model="serial" type="text" required />
+                </b-field>
+              </div>
+              <div class="column is-4">
+                <b-field :label="language.LOAD_METHOD">
+                  <b-select v-model="loadmethod">
+                    <option v-for="option in load_methods" :value="option.id" :key="option.id">
+                      {{ language[option.language] }}
+                    </option>
+                  </b-select>
+                </b-field>
+              </div>
+              <div class="column is-4">
+                <b-field :label="language.BAYS">
+                  <b-select v-model="count_bays">
+                    <option v-for="number in response_bays.length" :key="number" :value="number">
+                      {{ number }}
+                    </option>
+                  </b-select>
+                </b-field>
+              </div>
+              <div class="column is-4">
+                <div style="width: fit-content; margin: 0px auto;">
+                  <b style="position: relative; top: 0; margin-right: 10px;">
+                    {{ language.COLOR }}
+                  </b>
+                  <v-swatches v-model="cabcolor"></v-swatches>
                 </div>
               </div>
-            </template>
-          </b-autocomplete>
-        </b-field>
+            </div>
+          </div>
 
-        <b-field :label="language.DIVIDERS">
-          <b-input v-model="dividersaboard" type="number" required />
-        </b-field>
+          <div class="column is-12">
+            <b-table striped class="has-text-left" :data="bays">
+              <b-table-column :label="language.CODE" v-slot="props">
+                {{ props.row.bay_code }}
+              </b-table-column>
 
-        <b-field :label="language.IDENTIFICATION">
-          <b-input v-model="code" type="text" required />
-        </b-field>
+              <b-table-column :label="language.DESCRIPTION" v-slot="props">
+                {{ props.row.bay_descr }}
+              </b-table-column>
 
-        <b-field :label="language.SERIAL">
-          <b-input v-model="serial" type="text" required />
-        </b-field>
+              <b-table-column :label="language.PALLET" v-slot="props">
+                <select-row-pallet-bay
+                  :pallets="pallets"
+                  :row="props.row"
+                  :onChange="setPalletBay"
+                />
+              </b-table-column>
 
-        <b-field :label="language.LICENSE">
-          <b-input v-model="license" type="text" required />
-        </b-field>
+              <b-table-column label="X" v-slot="props">
+                {{ props.row.pallet_x }}
+              </b-table-column>
+
+              <b-table-column label="Y" v-slot="props">
+                {{ props.row.pallet_y }}
+              </b-table-column>
+
+              <b-table-column label="Z" v-slot="props">
+                {{ props.row.pallet_z }}
+              </b-table-column>
+            </b-table>
+          </div>
+        </div>
       </section>
       <footer class="modal-card-foot buttons is-pulled-right">
         <b-button
@@ -74,37 +105,119 @@
   font-weight: bold;
   font-size: 20px;
 }
+
+@media (min-width: 640px) {
+  .container-form {
+    width: 100%;
+    min-width: 700px;
+  }
+}
 </style>
 
 <script>
 import { ClientQPM } from '../../../utils/qpm';
 import language from '../../../languages/index';
+import VSwatches from 'vue-swatches';
+import 'vue-swatches/dist/vue-swatches.css';
+import SelectRowPalletBay from './SelectRowPalletBay.vue';
 
 export default {
   props: ['reload', 'resource'],
+  components: { VSwatches, SelectRowPalletBay },
 
   data: () => ({
     loading: false,
     sitename: ClientQPM.getCurrentUser().site_name,
     language: language().content,
-    code: '',
-    serial: '',
     cabcolor: '',
-    trucks_type: [],
-    license: '',
-    text_type: '',
-    dividersaboard: '',
-    loading_type: false,
-    truck_type: null,
+    code: '',
+    modelname: '',
     id: 0,
+    response_bays: [],
+    count_bays: 0,
+    bays: [],
+    serial: '',
+    loadmethod: 'side',
+    pallets: [],
+    load_methods: [
+      { id: 'side', language: 'SIDE' },
+      { id: 'back', language: 'BACK' },
+      { id: 'volumen', language: 'VOLUMEN' },
+      { id: 'weight', language: 'WEIGHT' },
+      { id: 'custom', language: 'CUSTOM' },
+      { id: 'mixed', language: 'MIXED' },
+    ],
   }),
 
   created: function() {
-    this.getTrucksType();
     for (const index in this.resource) this[index] = this.resource[index];
+    if (this.resource && this.resource.bays) this.count_bays = this.resource.bays.length;
+    this.getPallets();
+    this.getBays();
+  },
+
+  watch: {
+    count_bays: function(value) {
+      if (value <= 0) return;
+
+      console.log(this);
+
+      let { bays, response_bays } = this;
+      if (bays && bays.length > value) bays = bays.slice(0, value);
+      else
+        bays = bays.concat(
+          response_bays.slice(bays.length, value).map(r => ({
+            ...r,
+            pallet_x: 0,
+            pallet_z: 0,
+            pallet_y: 0,
+            pallet_code: '',
+            bay_descr: '',
+            bay_enabled: true,
+            bay_overflow: '',
+          }))
+        );
+
+      this.bays = bays;
+    },
   },
 
   methods: {
+    setPalletBay: function(params) {
+      const { row, value } = params;
+      const { bays, pallets } = this;
+
+      const getPallets = function(id) {
+        for (const index in pallets) {
+          if (pallets[index].id == id) return pallets[index];
+        }
+      };
+
+      let aux = bays.map(bay => {
+        if (bay.bay_code == row.bay_code) {
+          const pallet = getPallets(value);
+          bay = { ...bay, ...pallet };
+        }
+
+        return bay;
+      });
+
+      this.bays = aux;
+    },
+
+    // funcion que se encarga de obtener las paletas
+    getPallets: async function() {
+      try {
+        const { site_name } = ClientQPM.getCurrentUser();
+        ClientQPM.method('getEmptyPalletsFromSite', { sede: { site_name } });
+
+        const { pallets } = await ClientQPM.fetch().then(t => t);
+        this.pallets = pallets;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     // funcion que se encarga del cierre del dialog
     handleClose: function() {
       try {
@@ -114,64 +227,48 @@ export default {
       }
     },
 
-    // funcion que se encarga de filtrados de datos
-    filterTrucksType: function() {
-      return this.text_type
-        ? this.trucks_type.filter(option => {
-            return (
-              option.serial
-                .toString()
-                .toLowerCase()
-                .indexOf(this.text_type.toLowerCase()) >= 0 ||
-              option.modelname
-                .toString()
-                .toLowerCase()
-                .indexOf(this.text_type.toLowerCase()) >= 0 ||
-              option.code
-                .toString()
-                .toLowerCase()
-                .indexOf(this.text_type.toLowerCase()) >= 0
-            );
-          })
-        : this.trucks_type;
-    },
-
-    // metodo que obtiene el listo de tipos de vehiculos
-    getTrucksType: async function() {
+    // obteniendo los datos de la bahias
+    getBays: async function() {
       try {
-        ClientQPM.method('getTruckTypesFromSite', { sede: { sede: this.sitename } });
-        this.loading_type = true;
+        const { site_name } = ClientQPM.getCurrentUser();
+        ClientQPM.method('getBayCodesFromSite', { sede: { sede: site_name } });
 
-        const trucks_type = await ClientQPM.fetch()
+        const { codes } = await ClientQPM.fetch()
           .then(t => t)
           .catch(error => {
             throw error;
           });
 
-        this.trucks_type = trucks_type;
+        this.response_bays = codes;
       } catch (error) {
         console.error(error);
-      } finally {
-        this.loading_type = false;
       }
     },
 
+    // enviando datos
     onSubmit: async function() {
       try {
         this.loading = true;
-
-        ClientQPM.method('addEditFleetTruck', {
+        const params = {
           truckdata: {
             id: this.id,
-            model: this.truck_type.model,
             sitename: this.sitename,
             code: this.code,
-            serial: this.serial,
-            license: this.license,
             cabcolor: this.cabcolor,
-            dividersaboard: this.dividersaboard,
+            modelname: this.code,
+            serial: this.serial,
+            unit: 0,
+            maxaxleratio: 0,
+            loadmethod: this.loadmethod,
+            bays: this.bays,
+            containers: [],
+            axles: [],
           },
-        });
+        };
+
+        console.log(params);
+
+        ClientQPM.method('addEditTruck', params);
 
         await ClientQPM.fetch()
           .then(t => t)

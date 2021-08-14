@@ -59,6 +59,8 @@ export default {
     const inputs = document.querySelectorAll('input.input');
     for (const index in inputs) {
       const input = inputs[index];
+      if (!input || (input && typeof input != 'object')) return;
+
       input.onkeydown = ({ keyCode }) => {
         if (keyCode == 13) this.login();
       };

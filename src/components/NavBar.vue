@@ -10,7 +10,7 @@
       <b-navbar-item tag="router-link" :to="{ path: '/routes' }">
         <span>{{ language.content.ROUTES }}</span>
       </b-navbar-item>
-      <b-navbar-item tag="router-link" :to="{ path: '/drives' }">
+      <b-navbar-item tag="router-link" :to="{ path: '/drivers' }">
         <span>{{ language.content.TRUCK_FILL }}</span>
       </b-navbar-item>
       <b-navbar-item tag="router-link" :to="{ path: '/warehouse' }">

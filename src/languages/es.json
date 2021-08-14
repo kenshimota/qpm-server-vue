@@ -9,7 +9,7 @@
   "PACKAGES": "Paquetes",
   "CLASS": "Clases",
   "NEXT": "Siguiente",
-  "BACK": "Atras",
+  "BACK": "Atrás",
   "TRUCK_FILL": "Llenado de Camiones",
   "WAREHOUSE": "Almacen",
   "ROUTES": "Rutas",
@@ -101,5 +101,14 @@
   "CALCULATE": "Calcular",
   "BOXES_FOR_LITTER": "Cajas / Camada",
   "LITTERS_FOR_PALLET": "Camadas / Paleta",
-  "BOXES_FOR_PALLET": "Cajas / Paleta"
+  "BOXES_FOR_PALLET": "Cajas / Paleta",
+  "TRUCK_CODE": "Código Camión",
+  "SIDE": "Lateral",
+  "CUSTOM": "Específico",
+  "MIXED": "Mixto",
+  "LOAD_METHOD": "Método de Carga",
+  "AXLE": "Eje",
+  "MAX_WEIGHT": "Peso Max",
+  "WHEELES": "Ruedas",
+  "BAY": "Bahía"
 }

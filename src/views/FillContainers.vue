@@ -2,7 +2,7 @@
   <Index />
 </template>
 <script>
-import Index from '../components/fill_container/Index';
+import Index from '../components/drivers/Index';
 export default {
   components: { Index },
 };

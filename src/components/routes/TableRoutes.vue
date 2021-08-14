@@ -41,6 +41,11 @@
         </b-table-column>
 
         <b-table-column v-slot="props" :label="language.ACTIONS">
+          <b-button
+            v-if="props.row && props.row.trips && props.row.trips[0]"
+            @click="showTruck(props.row)"
+            icon-left="truck"
+          />
           <b-button @click="setRoute(props.row.id)" icon-left="arrow-right" type="is-success" />
         </b-table-column>
       </b-table>
@@ -73,6 +78,12 @@ export default {
   },
 
   methods: {
+    // funcion que se ocupa de mostrar el camion de la ruta
+    showTruck: function(route) {
+      const trip = route.trips[0].trip;
+      this.$router.push(`/drivers/${route.id}/${trip}`);
+    },
+
     // obteniendo la fecha
     getToDate: function(date) {
       date = new Date(date);
@@ -148,6 +159,8 @@ export default {
 
           routes[index] = { ...response, ...routes[index] };
         }
+
+        console.log(routes);
 
         this.list = routes;
         this.loading = false;
