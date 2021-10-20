@@ -4,6 +4,7 @@ node_modules
 
 # agregando archivo de configuracion que sera ignorado
 /src/utils/qpm.config.json
+/src/utils/here.json
 
 
 # local env files
