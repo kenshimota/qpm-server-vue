@@ -9,6 +9,7 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
+    "@here/maps-api-for-javascript": "^1.30.3",
     "@mdi/font": "^5.9.55",
     "buefy": "^0.9.10",
     "core-js": "^3.18.3",
