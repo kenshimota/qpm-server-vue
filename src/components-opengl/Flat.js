@@ -1,0 +1,43 @@
+import Figure from './Figure';
+
+class Flat extends Figure {
+  constructor(graph = null, params = {}) {
+    const { background, repeat = 20, length = 300 } = params;
+    super();
+    this.graph = graph;
+    this.background = background;
+    this.repeat = repeat;
+    this.length = length;
+    this.color = params.color ? params.color : 0xffffff;
+  }
+
+  create() {
+    const THREE = require('three');
+    const floor = this.background ? this.background : require('../assets/floor.jpg');
+    const textureLoader = new THREE.TextureLoader();
+
+    const floorTexture = textureLoader.load(floor);
+    floorTexture.wrapS = THREE.RepeatWrapping;
+    floorTexture.wrapT = THREE.RepeatWrapping;
+    floorTexture.repeat.set(this.repeat, this.repeat);
+
+    const planeGeometry = this.graph.createFigure({
+      geometry: 'PlaneGeometry',
+      attributes: [this.length, this.length],
+      material: { type: 'basic', color: this.color, map: floorTexture },
+      positions: this.positions,
+    });
+
+    planeGeometry.figure.rotation.x = -0.5 * Math.PI;
+    planeGeometry.figure.position.x = 0;
+    planeGeometry.figure.position.y = 0;
+    planeGeometry.figure.position.z = 0;
+
+    const figure = this.graph.createFigure({ geometry: 'Object3D' });
+    figure.add(planeGeometry);
+
+    return figure;
+  }
+}
+
+export default Flat;
