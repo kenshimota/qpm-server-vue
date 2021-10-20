@@ -2,8 +2,6 @@ import { QPM } from 'qpm-client-js';
 import config from './qpm.config.json';
 let session = !sessionStorage.getItem('qpm-session') == false;
 
-console.log(config);
-
 // permiste verificar los datos del usuario
 export const isLogin = () => session;
 
