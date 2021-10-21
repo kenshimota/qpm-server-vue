@@ -14,9 +14,11 @@ class Containers extends Figure {
 
   create() {
     const graph = this.graph;
+    const containerWall = this.width * 0.05;
+    this.containerWall = containerWall;
 
     const wallTailResource = new Boxes(graph, {
-      height: this.width * 0.05,
+      height: containerWall,
       width: this.width,
       length: this.length,
       color: this.color,
@@ -26,11 +28,11 @@ class Containers extends Figure {
 
     const wallTail = wallTailResource.render();
 
-    console.log('paso');
+
 
     const wallLeftResource = new Boxes(graph, {
       height: this.height,
-      width: this.width * 0.05,
+      width: containerWall,
       length: this.length,
       color: this.color,
       map: this.map,
@@ -41,7 +43,7 @@ class Containers extends Figure {
 
     const wallRightResource = new Boxes(graph, {
       height: this.height,
-      width: this.width * 0.05,
+      width: containerWall,
       length: this.length,
       color: this.color,
       map: this.map,
@@ -51,8 +53,8 @@ class Containers extends Figure {
 
     const wallBottomResource = new Boxes(graph, {
       height: this.height,
-      width: this.width * 0.05,
-      length: this.width - this.width * 0.05 * 2,
+      width: containerWall,
+      length: this.width - containerWall * 2,
       color: this.color,
       map: this.map,
       withParent: false,
@@ -65,10 +67,11 @@ class Containers extends Figure {
     wallBottom.figure.rotation.y += Math.PI / 2;
 
     // set position walls
-    wallRight.figure.position.x += this.width / 2 - (this.width * 0.05) / 2;
-    wallLeft.figure.position.x -= this.width / 2 - (this.width * 0.05) / 2;
-    wallBottom.figure.position.z -= this.length / 2 - (this.width * 0.05) / 2;
-    wallTail.figure.position.y -= this.height / 2 + (this.width * 0.05) / 2;
+    wallRight.figure.position.x += this.width / 2 - containerWall / 2;
+    wallLeft.figure.position.x -= this.width / 2 - containerWall / 2;
+    wallBottom.figure.position.z -= this.length / 2 - containerWall / 2;
+    wallTail.figure.position.y -= this.height / 2 + containerWall / 2;
+
 
     const figure = graph.createFigure({ geometry: 'Object3D' });
     figure.add(wallLeft);
@@ -76,7 +79,10 @@ class Containers extends Figure {
     figure.add(wallBottom);
     figure.add(wallTail);
 
-    return figure;
+    const container = graph.createFigure({ geometry: "Object3D" });
+    container.add(figure);
+
+    return container;
   }
 }
 
