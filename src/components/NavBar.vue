@@ -18,8 +18,11 @@
       </b-navbar-item>
 
       <b-navbar-dropdown :label="language.content.MORE">
-        <b-navbar-item type="buttton" @click="$router.push('/fill-container')">
+        <b-navbar-item type="button" @click="$router.push('/fill-container')">
           {{ language.content.FILL_CONTAINER }}
+        </b-navbar-item>
+        <b-navbar-item type = "button" @click = "$router.push('/create-container')">
+          {{ language.content.CREATE_CONTAINER }}
         </b-navbar-item>
       </b-navbar-dropdown>
     </template>
