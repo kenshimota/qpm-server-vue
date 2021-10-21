@@ -110,5 +110,7 @@
   "AXLE": "Eje",
   "MAX_WEIGHT": "Peso Max",
   "WHEELES": "Ruedas",
-  "BAY": "Bahía"
+  "BAY": "Bahía",
+  "COLUMN": "Columna",
+  "MARGIN": "Margen"
 }

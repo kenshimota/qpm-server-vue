@@ -110,5 +110,7 @@
   "AXLE": "Eje",
   "MAX_WEIGHT": "Max Weight",
   "WHEELES": "Wheeles",
-  "BAY": "Bay"
+  "BAY": "Bay",
+  "MARGIN": "Margin",
+  "COLUMN": "Column"
 }
