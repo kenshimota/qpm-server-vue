@@ -28,7 +28,7 @@ const main = async function(){
         site_city: "",
         site_state: "",
         site_zipcode: "",
-        site_country: "",
+        site_country: "EL SALVADOR",
         site_description: "",
         site_name: "",
     };
@@ -46,9 +46,10 @@ const main = async function(){
                 site_longitude: customer.client_longitude,
             }
         });
+
+        console.log(`Create Cliente ${customer.client_id}`);
         const response = await ClientQPM.fetch().then(response => response);
-        await sleep(300);
-        console.log(response);
+        console.log(`Created Client ${customer.client_id}`, response);
     }
 
 };
