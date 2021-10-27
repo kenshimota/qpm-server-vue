@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "vue-cli-service serve"
+    "start": "vue-cli-service serve",
+    "bot-create-customers": "node bots/create-customers"
   },
   "dependencies": {
     "@here/maps-api-for-javascript": "^1.30.3",
