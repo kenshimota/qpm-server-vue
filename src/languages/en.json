@@ -112,5 +112,7 @@
   "WHEELES": "Wheeles",
   "BAY": "Bay",
   "MARGIN": "Margin",
-  "COLUMN": "Column"
+  "COLUMN": "Column",
+  "CREATE_CONTAINER": "Create Container",
+  "CUSTOMERS": "Customers"
 }
