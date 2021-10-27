@@ -20,6 +20,11 @@ const routes = [
     path: "/create-container",
     name: "CreateContainer",
     component: () => import("../views/CreateContainer")
+  },
+  {
+    path: "/customers",
+    name: "Customers",
+    component: () => import("../views/Customers")
   }
 ];
 
