@@ -24,6 +24,9 @@
         <b-navbar-item type = "button" @click = "$router.push('/create-container')">
           {{ language.content.CREATE_CONTAINER }}
         </b-navbar-item>
+        <b-navbar-item type = "button" @click = "$router.push('/customers')">
+          {{ language.content.CUSTOMERS }}
+        </b-navbar-item>
       </b-navbar-dropdown>
     </template>
 
