@@ -114,5 +114,10 @@
   "COLUMN": "Columna",
   "MARGIN": "Margen",
   "CREATE_CONTAINER": "Crear Contenedor",
-  "CUSTOMERS": "Clientes"
+  "CUSTOMERS": "Clientes",
+  "CITY": "Ciudad",
+  "COUNTRY": "País",
+  "STATE": "Estado",
+  "LATITUDE": "Latitud",
+  "LONGITUDE": "Longitud"
 }
