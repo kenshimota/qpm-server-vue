@@ -20,7 +20,6 @@ export default {
 
     nodeMap.addBuble({ lng: -88.87, lat: 13.71 }, { content: '<span>Testing Erik</span>' });
 
-    console.log(nodeMap);
   },
 };
 </script>
