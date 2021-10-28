@@ -21,9 +21,23 @@ const HereMap = () => ({
     // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     this.behavior = behavior;
+    this.nodeElement = nodeElement;
 
     this.uiControls(defaultLayers, map);
     this._autoResize();
+  },
+
+  // function que crea un punto de marcado
+  createMarker: function(point, { content }){
+    const marker = new H.map.Marker(point);
+    marker.addEventListener("tap", () => this.addBuble(point, { content }));
+    marker.setData(content);
+    return marker;
+  },
+
+  addObject: function(object){
+    const map = this.map;
+    map.addObject(object);
   },
 
   // funcion que se encarga de una burbuja de informacion
