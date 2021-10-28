@@ -4,6 +4,7 @@
     <div class="container content-app" style="padding: 10px;">
       <router-view />
     </div>
+      <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
   </div>
 </template>
 
