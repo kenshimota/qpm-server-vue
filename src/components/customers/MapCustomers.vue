@@ -4,28 +4,18 @@
 </template>
 
 <script>
-import { ClientQPM } from '../../utils/qpm';
 import HereMap from "../../utils/here";
 import ContentHtmlCustomer from "./content-html-customers";
 export default {
-    props: ["snippet", "language"],
+    props: ["snippet", "customers", "loading", "language"],
 
     data: () => ({ 
-        customers: [], 
-        loading: false,
         nodeMap: HereMap(),
-        timeExec: null
     }),
 
-    mounted: function(){
-        this.handleSearch();
-    },
-
     watch: {
-        snippet: function(){
-            if(this.timeExec)
-                clearTimeout(this.timeExec);
-            this.timeExec = setTimeout(() => this.handleSearch(), 1000);
+        customers: function(){
+            this.handleCreateMap();
         },
     },
 
@@ -76,21 +66,13 @@ export default {
         },
         
         // function request to server for get customers
-        handleSearch: async function(){
+        handleCreateMap: async function(){
             try {
-                const snippet = this.snippet;
-                ClientQPM.method("searchCustomers", { searchstring: { snippet } });
 
                 const nodeElement = this.$refs['node-map'];
                 if(nodeElement.children.length)
-                    nodeElement.removeChild(nodeElement.children[0])
+                    nodeElement.removeChild(nodeElement.children[0]);
 
-                this.loading = true;
-                const customers = await ClientQPM.fetch().then(response => response.customers);
-
-                this.customers = customers;
-                this.loading = false;
-                this.currentPage = 1;
                 this.createMap();
             } catch(error){
                 console.error(error);
