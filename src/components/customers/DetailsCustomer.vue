@@ -10,6 +10,41 @@
         <section class="modal-card-body">
             <div class = "columns is-multiline">
                 <div class = "column is-12">
+                    <div class = "columns is-multiline">
+                        <div class = "column is-6">
+                            <b>{{ language.CODE }}: </b>
+                            <span>{{ site && site.code }}</span>
+                        </div>
+                        <div class = "column is-6">
+                            <b>{{ language.DESCRIPTION }}: </b>
+                            <span>{{ site && site.description }}</span>
+                        </div>
+                        <div class = "column is-6">
+                            <b>{{ language.COUNTRY }}: </b>
+                            <span>{{ site && site.site_country }}</span>
+                        </div>
+                        <div class = "column is-6">
+                            <b>{{ language.STATE }}: </b>
+                            <span>{{ site && site.site_state }}</span>
+                        </div>
+                        <div class = "column is-6">
+                            <b>{{ language.CITY }}: </b>
+                            <span>{{ site && site.site_city }}</span>
+                        </div>
+                        <div class = "column is-6">
+                            <b>{{ language.ZIP_CODE }}: </b>
+                            <span>{{ site && site.zipcode }}</span>
+                        </div>
+                        <div class = "column is-6">
+                            <b>{{ language.ADDRESS }} 1: </b>
+                            <span>{{ site && site.site_address1 }}</span>
+                        </div>
+                        <div class = "column is-6">
+                            <b>{{ language.ADDRESS }} 2: </b>
+                            <span>{{ site && site.site_address2 }}</span>
+                        </div>
+
+                    </div>
                 </div>
                 <div class = "column is-12">
                      <div ref="node-map" style="width: 100%;height: 400px;"></div>
@@ -25,9 +60,15 @@ import HereMap from "../../utils/here";
 import ContentHtmlCustomer from "./content-html-customers";
 export default {
     props: ["customer", "reload", "language"],
-    data: () => ({ nodeMap: HereMap() }),
+    data: () => ({ nodeMap: HereMap(), site: null }),
 
     mounted: function(){
+        const customer = this.customer;
+        if(customer.sites.length){
+            const site = customer.sites[0];
+            this.site = { ...site, code: customer.code, description: customer.description };
+        }
+
         this.createMap();
     },
 
@@ -36,13 +77,11 @@ export default {
         createMap: function(){
             const nodeMap = this.nodeMap;
             const customer = this.customer;
-            const site = customer.sites[0];
+            const site = this.site;
             const point = { 
                 lng: site.site_longitude, 
                 lat: site.site_latitude 
             };
-
-            console.log(point);
 
             const nodeElement = this.$refs['node-map'];
             nodeMap.createMap(nodeElement, {
@@ -51,7 +90,7 @@ export default {
             });
             
             const marker = nodeMap.createMarker(point, { content: ContentHtmlCustomer(customer) });
-            nodeMap.addObject(marker);
+            nodeMap.addObject(marker.resource);
         },
 
         handleClose: function() {
