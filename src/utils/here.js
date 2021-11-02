@@ -1,4 +1,6 @@
 import H from '@here/maps-api-for-javascript';
+import onResize from 'simple-element-resize-detector';
+import Marker from "./here/marker";
 import config from './here.json';
 
 // creado de node del elemento
@@ -23,13 +25,24 @@ const HereMap = () => ({
     this.behavior = behavior;
     this.nodeElement = nodeElement;
 
+    map.addEventListener("tap", (evt) => this.handleClickMap(evt));
     this.uiControls(defaultLayers, map);
     this._autoResize();
   },
 
+  // funcion control event tap
+  handleClickMap: function(evt) {
+    const map = this.map;
+    const center = evt.target.getCenter();
+    const currentPointer = evt.currentPointer;
+    const coords = map.screenToGeo(currentPointer.viewportX, currentPointer.viewportY);
+    typeof this.onClick == "function" && this.onClick({ coords, center, currentPointer });
+  },
+
   // function que crea un punto de marcado
-  createMarker: function(point, { content }){
-    const marker = new H.map.Marker(point);
+  createMarker: function(point, params = {}){
+    const { content } = params;
+    const marker = Marker(point);
     marker.addEventListener("tap", () => this.addBuble(point, { content }));
     marker.setData(content);
     return marker;
@@ -70,10 +83,8 @@ const HereMap = () => ({
   },
 
   _autoResize: function() {
-    if (!window) return;
-
     const map = this.map;
-    window.addEventListener('resize', () => map.getViewPort().resize());
+    onResize(this.nodeElement, () => map.getViewPort().resize());
   },
 });
 
