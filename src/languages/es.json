@@ -119,5 +119,7 @@
   "COUNTRY": "País",
   "STATE": "Estado",
   "LATITUDE": "Latitud",
-  "LONGITUDE": "Longitud"
+  "LONGITUDE": "Longitud",
+  "ADDRESS": "Dirección",
+  "ZIP_CODE": "Código Postal"
 }
