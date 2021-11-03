@@ -1,23 +1,27 @@
 # qpm-server-vue
 
 ## Project setup
-```
-npm install
+```shell
+$ npm install
+$ cp src/utils/here.json.example src/utils/here.json # copy an example connection API Here
+$ nano src/utils/here.json # edit information connection API HERE
+$ cp src/utils/qpm.config.json.example /src/utils/qpm.config.json # copy an example connection API Quick Pallet Marker
+$ nano /src/utils/qpm.config.json # edit an example connection API Quick Pallet Marker
 ```
 
 ### Compiles and hot-reloads for development
-```
-npm run serve
+```shell
+$ npm run serve
 ```
 
 ### Compiles and minifies for production
-```
-npm run build
+```shell
+$ npm run build
 ```
 
 ### Lints and fixes files
-```
-npm run lint
+```shell
+$ npm run lint
 ```
 
 ### Customize configuration
