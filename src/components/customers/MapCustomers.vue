@@ -49,7 +49,7 @@ export default {
                 if(site){
                     const point = {lat: site.site_latitude, lng: site.site_longitude};
                     const marker = nodeMap.createMarker(point, { content: ContentHtmlCustomer(customer) });
-                    nodeMap.addObject(marker);
+                    nodeMap.addObject(marker.resource);
                 }
             }
         },
