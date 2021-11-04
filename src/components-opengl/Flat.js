@@ -2,12 +2,13 @@ import Figure from './Figure';
 
 class Flat extends Figure {
   constructor(graph = null, params = {}) {
-    const { background, repeat = 20, length = 300 } = params;
+    const { background, repeat = 20,  length = 300 } = params;
     super();
     this.graph = graph;
     this.background = background;
     this.repeat = repeat;
     this.length = length;
+    this.width = params.width || length;
     this.color = params.color ? params.color : 0xffffff;
   }
 
@@ -23,7 +24,7 @@ class Flat extends Figure {
 
     const planeGeometry = this.graph.createFigure({
       geometry: 'PlaneGeometry',
-      attributes: [this.length, this.length],
+      attributes: [this.width, this.length],
       material: { type: 'basic', color: this.color, map: floorTexture },
       positions: this.positions,
     });
