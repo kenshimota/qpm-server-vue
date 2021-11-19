@@ -145,9 +145,7 @@ export default {
       const pallet_length = this.pallet_length * 1;
       const pallet_margin = this.pallet_margin * 1;
       const pallet_column = this.pallet_column * 1;
-      const height =  -containerResource.attributes.height / 2  ;
-      let length = containerResource.length;
-
+      const height =  -containerResource.attributes.height / 2;
 
       const initX = containerResource.width / 2 - containerResource.containerWall;
       const initZ = containerResource.length / 2;
