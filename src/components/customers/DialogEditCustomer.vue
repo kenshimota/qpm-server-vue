@@ -131,13 +131,11 @@ export default {
                 };
 
                 ClientQPM.method("addEditCustomer", { custdata: params });
-                const response = await ClientQPM.fetch()
-                    .then(response => response)
+                await ClientQPM.fetch()
                     .catch(error => {
                         throw error;
                     });
 
-                console.log(this.$props);
                 typeof this.reload == "function" && this.reload();
                 this.handleClose();
             } catch(error){
