@@ -13,33 +13,36 @@ class Boxes extends Figure {
   }
 
   create() {
+    const material = {
+      type: 'phong',
+      emissive: this.color,
+      transparent: true,
+      opacity: 0.9,
+    };
+
+    if(this.map){
+      material["type"] = "basic";
+      material["map"] = this.map;
+    }
+
     const graph = this.graph;
     const cube = graph.createFigure({
       geometry: 'BoxGeometry',
       attributes: [this.width, this.height, this.length],
-      material: {
-        type: (this.map && 'basic') || 'phong',
-        map: this.map,
-        emissive: this.color,
-        transparent: true,
-        opacity: 0.9,
-      },
+      material: material,
     });
 
     let cubeParent = null;
 
     if (this.withParent) {
+      material["opacity"] = 0.6;
+      material["emissive"] = 0x000000;
+      material["wireframe"] = true;
+
       cubeParent = graph.createFigure({
         geometry: 'BoxGeometry',
         attributes: [this.width, this.height, this.length],
-        material: {
-          type: (this.map && 'basic') || 'phong',
-          emissive: 0x000000,
-          transparent: true,
-          opacity: 0.6,
-          map: this.map,
-          wireframe: true,
-        },
+        material: material,
       });
       cubeParent.add(cube);
     } else cubeParent = cube;
