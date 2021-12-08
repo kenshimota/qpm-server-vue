@@ -1,40 +1,52 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from "vue";
+import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', redirect: '/warehouse' },
-  { path: '/warehouse', component: () => import('../views/Warehouse') },
-  { path: '/routes/', component: () => import('../views/Routes') },
-  { path: '/drivers/:route_id/:strip', component: () => import('../views/Drivers') },
-  { path: '/language', name: 'Language', component: () => import('../views/Language') },
-  { path: '/login', name: 'Login', component: () => import('../views/Login') },
-  { path: '/map', name: 'Map', component: () => import('../views/Map') },
+  { path: "/", redirect: "/warehouse" },
+  { path: "/warehouse", component: () => import("../views/Warehouse") },
+  { path: "/routes/", component: () => import("../views/Routes") },
   {
-    path: '/fill-container',
-    name: 'FillContainer',
-    component: () => import('../views/FillContainers'),
+    path: "/drivers/:route_id/:strip",
+    component: () => import("../views/Drivers"),
+  },
+  {
+    path: "/language",
+    name: "Language",
+    component: () => import("../views/Language"),
+  },
+  { path: "/login", name: "Login", component: () => import("../views/Login") },
+  { path: "/map", name: "Map", component: () => import("../views/Map") },
+  {
+    path: "/fill-container",
+    name: "FillContainer",
+    component: () => import("../views/FillContainers"),
   },
   {
     path: "/create-container",
     name: "CreateContainer",
-    component: () => import("../views/CreateContainer")
+    component: () => import("../views/CreateContainer"),
   },
   {
     path: "/customers",
     name: "Customers",
-    component: () => import("../views/Customers")
+    component: () => import("../views/Customers"),
+  },
+  {
+    path: "/3d",
+    name: "3D",
+    component: () => import("../views/3D"),
   },
   {
     path: "/test",
     name: "Test",
-    component: () => import("../views/Test")
-  }
+    component: () => import("../views/Test"),
+  },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes,
 });
