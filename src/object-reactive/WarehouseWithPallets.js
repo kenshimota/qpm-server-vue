@@ -40,9 +40,10 @@ const createContainers = function(instance) {
 
 const WarehouseWidthPallets = function() {
   this.initState({
-    position: { x: -10, y: 100, z: 0 },
+    position: { x: -20, y: 50, z: -20 },
     rotation: { y: Math.PI / 2 },
   });
+
   const state = this.state;
   const props = this.props;
   props.widthPixelMax = window.outerWidth;
@@ -68,33 +69,67 @@ const WarehouseWidthPallets = function() {
     figure.add(flat.template);
   });
 
-  /*this.createNode(
-    {
-      position: {
-        x: state.position.x + 50,
-        y: 0,
-        z: state.position.z + 50,
-      },
-    },
-    Forklift
-  );*/
+  const camera = this.graph.camera;
 
   const handleKeyUp = (event) => {
+    const cosDeg = (deg) => {
+      const angle = deg % 45;
+      return Math.cos((angle * Math.PI) / 180);
+    };
+
+    const checkBusy = function(position) {
+      for (const i in containers) {
+        const { length, width } = containers[i].props;
+        const coords = containers[i].template.figure.position;
+        const minX = coords.x - width / 2;
+        const maxX = coords.x + width / 2;
+        const minZ = coords.z - length / 2;
+        const maxZ = coords.z + length / 2;
+        if (
+          minX <= position.x &&
+          maxX >= position.x &&
+          minZ <= position.z &&
+          maxZ >= position.z
+        )
+          return true;
+      }
+
+      return false;
+    };
+
     const getSumPoint = function(rotation) {
       const valueDeg = (Math.PI * 2) / 360;
-      const rotationY = Math.abs(rotation.y % (Math.PI * 2));
-      const degZ = Math.abs(90 - rotationY / valueDeg);
-      const degX = Math.abs(degZ - 90);
+      const unit = 5;
+      const rotationY = rotation.y % (Math.PI * 2);
+      const deg =
+        rotationY > 0
+          ? rotationY / valueDeg
+          : 360 - Math.abs(rotationY) / valueDeg;
 
-      let sumX = ((degX % 180) / 90) * 10;
-      let sumZ = ((degZ % 180) / 90) * 10;
+      let sumX = unit;
+      let sumZ = unit;
 
-      if (rotationY / valueDeg > 90 && rotationY / valueDeg < 270) sumZ *= -1;
-      if (rotationY / valueDeg > 180) sumX *= -1;
+      if (deg >= 315 || deg <= 45) {
+        const hypotenuse = sumZ / cosDeg(deg >= 315 ? 360 - deg : deg);
+        const oppositive = Math.sqrt(hypotenuse * hypotenuse - sumZ * sumZ);
+        sumX = deg > 45 ? -oppositive : oppositive;
+      } else if (deg > 45 && deg <= 135) {
+        const hypotenuse = sumX / cosDeg(deg <= 90 ? 90 - deg : deg);
+        const oppositive = Math.sqrt(hypotenuse * hypotenuse - sumX * sumX);
+        sumZ = deg > 90 ? -oppositive : oppositive;
+      } else if (deg > 135 && deg <= 225) {
+        const hypotenuse = sumZ / cosDeg(deg <= 180 ? 180 - deg : deg);
+        const oppositive = Math.sqrt(hypotenuse * hypotenuse - sumZ * sumZ);
+        sumX = deg > 180 ? -oppositive : oppositive;
+        sumZ = -sumZ;
+      } else {
+        const hypotenuse = sumX / cosDeg(deg <= 270 ? 270 - deg : deg);
+        const oppositive = Math.sqrt(hypotenuse * hypotenuse - sumX * sumX);
+        sumZ = deg > 270 ? oppositive : -oppositive;
+        sumX = -sumX;
+      }
 
-      const response = { degX, degZ, sumX, sumZ, rotationY };
-
-      return response;
+      return { sumX: sumX, sumZ: sumZ };
     };
 
     const events = {
@@ -103,6 +138,12 @@ const WarehouseWidthPallets = function() {
         const response = getSumPoint(rotation);
         position.x += response.sumX;
         position.z += response.sumZ;
+
+        if (checkBusy(position)) {
+          position.x -= response.sumX;
+          position.z -= response.sumZ;
+        }
+
         this.state = { position: { ...position } };
       },
       "87": () => {
@@ -110,15 +151,20 @@ const WarehouseWidthPallets = function() {
         const response = getSumPoint(rotation);
         position.x += -response.sumX;
         position.z += -response.sumZ;
+        if (checkBusy(position)) {
+          position.x += response.sumX;
+          position.z += response.sumZ;
+        }
+
         this.state = { position: { ...position } };
       },
       "65": () =>
         (this.state = {
-          rotation: { ...state.rotation, y: this.state.rotation.y + 0.1 },
+          rotation: { ...state.rotation, y: camera.rotation.y + 0.1 },
         }),
       "68": () =>
         (this.state = {
-          rotation: { ...state.rotation, y: this.state.rotation.y - 0.1 },
+          rotation: { ...state.rotation, y: camera.rotation.y - 0.1 },
         }),
     };
 
@@ -127,7 +173,6 @@ const WarehouseWidthPallets = function() {
 
   this.addEventListener("keydown", handleKeyUp);
 
-  const camera = this.graph.camera;
   camera.position.x = state.position.x;
   camera.position.y = state.position.y;
   camera.position.z = state.position.z;
