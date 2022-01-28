@@ -21,11 +21,17 @@
         <b-navbar-item type="button" @click="$router.push('/fill-container')">
           {{ language.content.FILL_CONTAINER }}
         </b-navbar-item>
-        <b-navbar-item type = "button" @click = "$router.push('/create-container')">
+        <b-navbar-item type="button" @click="$router.push('/create-container')">
           {{ language.content.CREATE_CONTAINER }}
         </b-navbar-item>
-        <b-navbar-item type = "button" @click = "$router.push('/customers')">
+        <b-navbar-item type="button" @click="$router.push('/customers')">
           {{ language.content.CUSTOMERS }}
+        </b-navbar-item>
+        <b-navbar-item
+          type="button"
+          @click="$router.push('/calculate-pallet-shipments')"
+        >
+          {{ language.content.CALCULATE_PALLET_SHIPMENTS }}
         </b-navbar-item>
       </b-navbar-dropdown>
     </template>
@@ -51,8 +57,8 @@
 </template>
 
 <script>
-import { isLogin, setLogout } from '../utils/qpm';
-import { languages, getLanguage } from '../languages/index';
+import { isLogin, setLogout } from "../utils/qpm";
+import { languages, getLanguage } from "../languages/index";
 export default {
   created: function() {
     setInterval(() => (this.session = isLogin()), 200);
@@ -64,13 +70,13 @@ export default {
     // seteando el lenguaje
     setLanguage: function(key) {
       this.language = getLanguage(key);
-      this.$router.push('/language');
+      this.$router.push("/language");
     },
 
     // función que se encarga de cerrar sesión
     logout: async function() {
       await setLogout();
-      this.$router.push('/login');
+      this.$router.push("/login");
     },
   },
 };

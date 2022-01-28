@@ -121,5 +121,10 @@
   "LATITUDE": "Latitud",
   "LONGITUDE": "Longitud",
   "ADDRESS": "Dirección",
-  "ZIP_CODE": "Código Postal"
+  "ZIP_CODE": "Código Postal",
+  "CALCULATE_PALLET_SHIPMENTS": "Calcular Envio de Palletas",
+  "MAX_HEIGHT": "Altura Maxima",
+  "MAX_LENGTH": "Longitud Maxima",
+  "MAX_WIDTH": "Anchura Maxima",
+  "PALLET_DIMENTIONS": "Dimensiones de Paleta"
 }

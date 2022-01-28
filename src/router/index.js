@@ -43,6 +43,11 @@ const routes = [
     name: "Test",
     component: () => import("../views/Test"),
   },
+  {
+    name: "CalculatePalletShipments",
+    path: "/calculate-pallet-shipments",
+    component: () => import("../views/CalculateShipmentPallet"),
+  },
 ];
 
 const router = new VueRouter({

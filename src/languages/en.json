@@ -121,5 +121,10 @@
   "LATITUDE": "LATITUDE",
   "LONGITUDE": "LONGITUDE",
   "ADDRESS": "Address",
-  "ZIP_CODE": "Zip Code"
+  "ZIP_CODE": "Zip Code",
+  "CALCULATE_PALLET_SHIPMENTS": "Calculate Pallet Shipments",
+  "MAX_HEIGHT": "Max. Height",
+  "MAX_LENGTH": "Max. Length",
+  "MAX_WIDTH": "Max. Width",
+  "PALLET_DIMENTIONS": "Pallet Dimensions"
 }
